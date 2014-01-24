@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay SYSTEM "chrome://mboximport/locale/mboximport.dtd">
+<overlay id="sdOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<script type="application/x-javascript" src="chrome://mboximport/content/mboximport.js" />
+<script type="application/x-javascript" src="chrome://mboximport/content/exportTools.js" />
+<script type="application/x-javascript" src="chrome://mboximport/content/utils.js" />
+<script type="application/x-javascript" src="chrome://mboximport/content/sdOverlay.js" />
+
+<vbox insertbefore="status-bar" hidden="true">
+	<hbox>
+	<vbox>
+		<spacer flex="1" />
+		<button label="&sdExportButton;" oncommand="SDexportMsg()"   />
+		<spacer flex="1" />
+	</vbox>
+	<groupbox>
+	<radiogroup id="all" orient="horizontal">
+		<radio label="&sdAll;" selected="true"/>
+		<radio label="&sdSelected;"/>
+	</radiogroup>
+	</groupbox>
+	</hbox>
+	<hbox>
+	<groupbox>
+	<caption  label="&sdFormat;" />
+	<radiogroup id="type" orient="horizontal">
+		<radio label="&sdEML;" selected="true" />
+		<radio label="&sdHTML;"/>
+		<radio label="&sdText;"/>
+		<radio label="&sdText; &oneFile;"/>
+		<radio id="mbox" label="&sdMBOX;" />
+		<radio id="mbox2" label="&sdMBOX2;" />
+		<radio id="csv" label="&asCSV;" />
+	</radiogroup>
+	</groupbox>
+	</hbox>
+</vbox>
+</overlay>
+
