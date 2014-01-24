@@ -49,6 +49,16 @@ function IETupdateFolder(folder) {
 	folder.updateFolder(msgWindow);
 }
 
+function ensureSubFolder(parent, name) {
+	var folders = parent.subFolders;
+	while (folders.hasMoreElements()) {
+		let folder = folders.getNext().QueryInterface(Components.interfaces.nsIMsgFolder);
+		if (folder.prettiestName == name)
+			return folder;
+	}
+	return parent.addSubfolder(name);
+}
+
 function trytocopyMAILDIR() {
 	if (IETstoreFormat() != 1) {
 		alert(mboximportbundle.GetStringFromName("noMaildirStorage"));
@@ -103,7 +113,7 @@ function trytocopyMAILDIR() {
 	}
 
 	// 1. add a subfolder with the name of the folder to import 
-	var newFolder = msgFolder.addSubfolder(newfilename);
+	var newFolder = ensureSubFolder(msgFolder, newfilename);
 	if (restoreChar) {
 		var reg = new RegExp(safeChar,"g");
 		newFolder.name = newfilename.replace(reg, "#");
@@ -211,7 +221,7 @@ function trytocopy(file,filename,msgFolder,keepstructure) {
 	// This is a dirty hack, I hope to find in the future something better...
 	//
 	// 1. add a subfolder with the name of the folder to import
-	var tempfolder = msgFolder.addSubfolder(newfilename);
+	var tempfolder = ensureSubFolder(msgFolder, newfilename);
 	if (restoreChar) {
 		var reg = new RegExp(safeChar,"g");
 		tempfolder.name = newfilename.replace(reg, "#");
@@ -817,9 +827,7 @@ function buildEMLarray(file,fol,recursive) {
 		}
 
 		if (recursive && is_Dir) {
-			msgFolder.createSubfolder(afile.leafName, msgWindow);
-			var newFolder = msgFolder.getChildNamed(afile.leafName);
-			newFolder = newFolder.QueryInterface(Components.interfaces.nsIMsgFolder);
+			var newFolder = ensureSubFolder(msgFolder, afile.leafName);
 			buildEMLarray(afile,newFolder,true);
 		}
 		else {
