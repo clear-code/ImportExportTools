@@ -5,7 +5,7 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
 	<Description about="urn:mozilla:install-manifest">
 	
-		<em:id>{3ed8cc52-86fc-4613-9026-c1ef969da4c3}</em:id>
+		<em:id>mboximport@clear-code.com</em:id>
 		<em:name>ImportExportTools</em:name>
 		<em:version>2.8.0.4</em:version>
 		<em:description>Adds tools to export/import messages and folders</em:description>
