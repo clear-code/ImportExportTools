@@ -49,7 +49,7 @@ function IETupdateFolder(folder) {
 	folder.updateFolder(msgWindow);
 }
 
-function ensureSubFolder(parent, name) {
+function IETensureSubFolder(parent, name) {
 	var folders = parent.subFolders;
 	while (folders.hasMoreElements()) {
 		let folder = folders.getNext().QueryInterface(Components.interfaces.nsIMsgFolder);
@@ -113,7 +113,7 @@ function trytocopyMAILDIR() {
 	}
 
 	// 1. add a subfolder with the name of the folder to import 
-	var newFolder = ensureSubFolder(msgFolder, newfilename);
+	var newFolder = IETensureSubFolder(msgFolder, newfilename);
 	if (restoreChar) {
 		var reg = new RegExp(safeChar,"g");
 		newFolder.name = newfilename.replace(reg, "#");
@@ -221,7 +221,7 @@ function trytocopy(file,filename,msgFolder,keepstructure) {
 	// This is a dirty hack, I hope to find in the future something better...
 	//
 	// 1. add a subfolder with the name of the folder to import
-	var tempfolder = ensureSubFolder(msgFolder, newfilename);
+	var tempfolder = IETensureSubFolder(msgFolder, newfilename);
 	if (restoreChar) {
 		var reg = new RegExp(safeChar,"g");
 		tempfolder.name = newfilename.replace(reg, "#");
@@ -827,7 +827,7 @@ function buildEMLarray(file,fol,recursive) {
 		}
 
 		if (recursive && is_Dir) {
-			var newFolder = ensureSubFolder(msgFolder, afile.leafName);
+			var newFolder = IETensureSubFolder(msgFolder, afile.leafName);
 			buildEMLarray(afile,newFolder,true);
 		}
 		else {
