@@ -50,13 +50,15 @@ function IETupdateFolder(folder) {
 }
 
 function IETensureSubFolder(parent, name) {
-	var folders = parent.subFolders;
-	while (folders.hasMoreElements()) {
-		let folder = folders.getNext().QueryInterface(Components.interfaces.nsIMsgFolder);
-		if (folder.prettiestName == name)
+	try {
+		var folder = parent.getChildNamed(name);
+		if (folder)
 			return folder;
 	}
-	return parent.addSubfolder(name);
+	catch(error) {
+	}
+	parent.createSubfolder(name, msgWindow);
+	return parent.getChildNamed(name);
 }
 
 function trytocopyMAILDIR() {
