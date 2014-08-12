@@ -56,7 +56,6 @@
 <!ENTITY emlExport "папок как одного файла:">
 <!ENTITY selExport "выбранных сообщений:">
 <!ENTITY MBcaptionlabel1 "Общие настройки">
-<!ENTITY saveProfile "Сохранить все файлы профиля">
 <!ENTITY saveProfileMail "Сохранить все файлы почты">
 <!ENTITY sdExportButton "Экспорт">
 <!ENTITY sdMessages "Сообщения">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "Импортировать все eml файлы из каталога">
 <!ENTITY importMAILDIR "Import Maildir folder">
 <!ENTITY withattach "(with attachments)">
+<!ENTITY asPDF "PDF format">
+<!ENTITY importProfile "Import profile">
+<!ENTITY csvSep "Separator for export in CSV format:">
+<!ENTITY saveProfile "Сохранить все файлы профиля">

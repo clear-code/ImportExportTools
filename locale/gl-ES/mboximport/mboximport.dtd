@@ -56,7 +56,6 @@
 <!ENTITY emlExport "Exportar cartafoles como ficheiros individuais:">
 <!ENTITY selExport "Exportar mensaxes as seleccionadas:">
 <!ENTITY MBcaptionlabel1 "Exportar axustes">
-<!ENTITY saveProfile "Gardar todos os ficheiros do perfil">
 <!ENTITY saveProfileMail "Gardar todos os ficheiros do correo">
 <!ENTITY sdExportButton "Exportar">
 <!ENTITY sdMessages "Mensaxes">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "Importar todos os ficheiros EML dun directorio">
 <!ENTITY importMAILDIR "Importar cartafol Maildir">
 <!ENTITY withattach "(with attachments)">
+<!ENTITY asPDF "PDF format">
+<!ENTITY importProfile "Import profile">
+<!ENTITY csvSep "Separator for export in CSV format:">
+<!ENTITY saveProfile "Gardar todos os ficheiros do perfil">

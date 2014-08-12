@@ -56,7 +56,6 @@
 <!ENTITY emlExport "Exportar pastas como ficheiro único:">
 <!ENTITY selExport "Exportar mensagens seleccionadas:">
 <!ENTITY MBcaptionlabel1 "Exportar Definições">
-<!ENTITY saveProfile "Guardar todos os ficheiros de perfis">
 <!ENTITY saveProfileMail "Guardar todos os ficheiros de correio">
 <!ENTITY sdExportButton "Exportar">
 <!ENTITY sdMessages "Mensagens">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "Importar todos os ficheiros eml de uma directoria">
 <!ENTITY importMAILDIR "Import Maildir folder">
 <!ENTITY withattach "(with attachments)">
+<!ENTITY asPDF "PDF format">
+<!ENTITY importProfile "Import profile">
+<!ENTITY csvSep "Separator for export in CSV format:">
+<!ENTITY saveProfile "Guardar todos os ficheiros de perfis">

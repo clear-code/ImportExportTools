@@ -87,7 +87,16 @@ function exportSelectedMsgs(type) {
 	9 = Plain Text with attachments
 	*/
 	if (type == 1 || type == 2 || type == 7) {
-		var question = IETformatWarning();
+		var question = IETformatWarning(1);
+		if (! question) 
+			return;
+		question = IETformatWarning(0);
+		if (! question) 
+			return;
+	}
+
+	if (type == 8 || type == 9) {
+		var question = IETformatWarning(1);
 		if (! question) 
 			return;
 	}
@@ -132,12 +141,7 @@ function exportSelectedMsgs(type) {
 	else
 		var isOffLineImap = false;
 
-	// TB3 has not GetSelectedMessages function
-	if ( typeof GetSelectedMessages  == "undefined" )
-		 var emlsArray  = gFolderDisplay.selectedMessageUris;
-	else
-		var emlsArray = GetSelectedMessages();
-	
+	 var emlsArray  = IETgetSelectedMessages()
 	IETskipped = 0;
 	if (isOffLineImap) {
 		var tempArray = [];
@@ -205,7 +209,16 @@ function exportSelectedMsgs(type) {
 
 function exportAllMsgs(type) {
 	if (type == 1 || type == 2 || type == 7) {
-		var question = IETformatWarning();
+		var question = IETformatWarning(1);
+		if (! question) 
+			return;
+		question = IETformatWarning(0);
+		if (! question) 
+			return;
+	}
+
+	if (type == 8 || type == 9) {
+		var question = IETformatWarning(1);
 		if (! question) 
 			return;
 	}
@@ -302,10 +315,10 @@ function exportAllMsgsDelayedVF(type,file,msgFolder) {
 	IETskipped = 0;
 	
 	var hdrArray = new Array;
-	var mustcorrectname = IETprefs.getBoolPref("mboximport.export.filenames_toascii");
+	var mustcorrectname = IETprefs.getBoolPref("extensions.importexporttools.export.filenames_toascii");
 	var filex = msgFolder2LocalFile(msgFolder);
 	var datedir = buildContainerDirName();
-	var useContainer = IETprefs.getBoolPref("mboximport.export.use_container_folder");
+	var useContainer = IETprefs.getBoolPref("extensions.importexporttools.export.use_container_folder");
 
 	if (useContainer) {
 		// Check if the name is good or exists alredy another directory with the same name
@@ -389,11 +402,11 @@ function exportAllMsgsDelayed(type,file,msgFolder) {
 		return;
 	}
 	var hdrArray = new Array;
-	var mustcorrectname = IETprefs.getBoolPref("mboximport.export.filenames_toascii");
+	var mustcorrectname = IETprefs.getBoolPref("extensions.importexporttools.export.filenames_toascii");
 	var filex = msgFolder2LocalFile(msgFolder);
 	var datedir = buildContainerDirName();
-	var useContainer = IETprefs.getBoolPref("mboximport.export.use_container_folder");
-	var skipExistingMsg = IETprefs.getBoolPref("mboximport.export.skip_existing_msg");
+	var useContainer = IETprefs.getBoolPref("extensions.importexporttools.export.use_container_folder");
+	var skipExistingMsg = IETprefs.getBoolPref("extensions.importexporttools.export.skip_existing_msg");
 	var ext = IETgetExt(type);
 
 	if (useContainer) {	
@@ -518,7 +531,7 @@ function IETrunExport(type,subfile,hdrArray,file2,msgFolder) {
 }
 
 function createIndex(type, file2, hdrArray, msgFolder,justIndex) {
-	if (! IETprefs.getBoolPref("mboximport.export.use_container_folder") && ! justIndex)
+	if (! IETprefs.getBoolPref("extensions.importexporttools.export.use_container_folder") && ! justIndex)
 		return;
 
 	var myDate=new Date();
@@ -615,9 +628,8 @@ function createIndexCSV(type, file2, hdrArray, msgFolder, addBody) {
 	}			
 
 	var subdirname = nametoascii(IETmesssubdir);
-	var sep = mboximportbundle.GetStringFromName("CSVseparator");
+	var sep = IETprefs.getCharPref("extensions.importexporttools.csv_separator");
 	var data = "";
-	var rexp=new RegExp(sep,"g");
 
 	// Build the index csv page
 	
@@ -880,17 +892,17 @@ function exportAsHtml(uri,uriArray,file,convertToText,allMsgs,copyToClip,append,
 
 			this.scriptStream = null;
 			var clone = file.clone();
-			if (String.trim && saveAttachments) { 
+			if (String.trim && saveAttachments && (hdr.flags & 0x10000000)) { 
 				var aMsgHdr = hdr;
 				MsgHdrToMimeMessage(aMsgHdr, null, function(aMsgHdr, aMsg) {
-					var attachments = aMsg.allAttachments;  
+					var attachments = aMsg.allUserAttachments ? aMsg.allUserAttachments : aMsg.allAttachments;
 					// attachments = attachments.filter(function (x) x.isRealAttachment);
 					var footer = null;
 					var noDir = true;
 					for (var i=0;i<attachments.length;i++) {
-						var att = attachments[i];
-						if (att.contentType.indexOf("text/plain") == 0 )
-							continue;
+						var att = attachments[i];	
+						// if (att.contentType.indexOf("text/plain") == 0 )
+						//	continue;
 						if (noDir) {
 							var attDirContainer = file.clone();
 							attDirContainer.append("Attachments");
@@ -938,10 +950,10 @@ function exportAsHtml(uri,uriArray,file,convertToText,allMsgs,copyToClip,append,
 						data = data.replace(/<\/html>(?:.|\r?\n)+/, "</html>");
 					}
 					myTxtListener.onAfterStopRequest(clone,data,saveAttachments);
-				},true); 
+				},true, { examineEncryptedParts: true, }); 
 			}
 			else
-				myTxtListener.onAfterStopRequest(clone,data,saveAttachments);	
+				myTxtListener.onAfterStopRequest(clone,data,saveAttachments);
 		},
 		
 		onAfterStopRequest : function(clone,data,saveAttachments) {
@@ -1019,9 +1031,9 @@ function exportAsHtml(uri,uriArray,file,convertToText,allMsgs,copyToClip,append,
 						var imgs = data.match(/<img[^>]+src=\"mailbox[^>]+>/g);
 						for (var i=0;i<imgs.length;i++) {
 							if (! embImgContainer) {
-									embImgContainer = file.clone();
-									embImgContainer.append("EmbeddedImages");
-									embImgContainer.createUnique(1,0775);
+								embImgContainer = file.clone();
+								embImgContainer.append("EmbeddedImages");
+								embImgContainer.createUnique(1,0775);
 							}
 							var aUrl = imgs[i].match(/mailbox:\/\/\/[^\"]+/);
 							var embImg = embImgContainer.clone();
@@ -1072,28 +1084,25 @@ function exportAsHtml(uri,uriArray,file,convertToText,allMsgs,copyToClip,append,
 				exportAsHtml(nextUri,uriArray,file,convertToText,allMsgs,copyToClip,append,hdrArray,file2,msgFolder,saveAttachments);
 			}
 			else {
-				if (myTxtListener.file2) {
-					var type = convertToText ? 2 : 1;
+				var type = convertToText ? 2 : 1;
+				if (myTxtListener.file2) 					
 					createIndex(type, myTxtListener.file2, hdrArray, myTxtListener.msgFolder, false);
-				}
+				if (saveAttachments)
+					type += 7;
 				IETexported = 0;
 				IETtotal = 0;
 				IETskipped = 0;
 				IETglobalMsgFoldersExported = IETglobalMsgFoldersExported + 1;
-				if (convertToText)
-					var type = 2;
-				else
-					var type = 1;
 				if (IETglobalMsgFoldersExported && IETglobalMsgFoldersExported < IETglobalMsgFolders.length) 
-						exportAllMsgsStart(type,IETglobalFile,IETglobalMsgFolders[IETglobalMsgFoldersExported]);
+					exportAllMsgsStart(type,IETglobalFile,IETglobalMsgFolders[IETglobalMsgFoldersExported]);
 				else
-						document.getElementById("IETabortIcon").collapsed = true;
+					document.getElementById("IETabortIcon").collapsed = true;
 			}
 		}
 	};
 
    	 // This pref fixes also bug https://bugzilla.mozilla.org/show_bug.cgi?id=384127
-	var HTMLasView = IETprefs.getBoolPref("mboximport.export.HTML_as_displayed");
+	var HTMLasView = IETprefs.getBoolPref("extensions.importexporttools.export.HTML_as_displayed");
 	// For additional headers see  http://lxr.mozilla.org/mozilla1.8/source/mailnews/mime/src/nsStreamConverter.cpp#452
 	if (! HTMLasView && ! convertToText && ! copyToClip)
 		uri = uri+"?header=saveas";
@@ -1122,7 +1131,7 @@ function exportAsHtml(uri,uriArray,file,convertToText,allMsgs,copyToClip,append,
 	insert a preference to use it anyway.
 	*/
 
-	var useConverter = IETprefs.getBoolPref("mboximport.export.use_converter");
+	var useConverter = IETprefs.getBoolPref("extensions.importexporttools.export.use_converter");
 	if (hdr.folder.server.type == "nntp" || useConverter) {
 		var nsURI = Components.classes["@mozilla.org/network/io-service;1"]
 			.getService(Components.interfaces.nsIIOService).newURI(uri, null, null);
@@ -1162,7 +1171,7 @@ function IETconvertToUTF8(string) {
 function IETcopyToClip(data) {
 	var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
 	var str2 = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
-	var justText = IETprefs.getBoolPref("mboximport.clipboard.always_just_text");
+	var justText = IETprefs.getBoolPref("extensions.importexporttools.clipboard.always_just_text");
 	str.data = IEThtmlToText(data);
 
 	// hack to clean the headers layout!!!
@@ -1305,7 +1314,7 @@ function exportIMAPfolder(msgFolder,destdirNSIFILE) {
 
 function IETwritestatus(text) {
 	document.getElementById("statusText").setAttribute("label", text);
-	var delay = IETprefs.getIntPref("mboximport.delay.clean_statusbar");
+	var delay = IETprefs.getIntPref("extensions.importexporttools.delay.clean_statusbar");
 	if (delay > 0)
 		window.setTimeout(function(){IETdeletestatus(text);}, delay);
 }
@@ -1334,12 +1343,12 @@ function  IETwriteDataOnDisk(file,data,append,fname,time) {
 	if (data)
 		foStream.write(data,data.length);
 	foStream.close();
-	if (time && IETprefs.getBoolPref("mboximport.export.set_filetime"))
+	if (time && IETprefs.getBoolPref("extensions.importexporttools.export.set_filetime"))
 		file.lastModifiedTime = time;
 }
 
 function IETwriteDataOnDiskWithCharset(file,data,append,fname,time) {
-	var charset = IETprefs.getCharPref("mboximport.export.text_plain_charset");
+	var charset = IETprefs.getCharPref("extensions.importexporttools.export.text_plain_charset");
 	try {
 		// On Thunderbird 1.0 this will fail
 		var os = Components.classes["@mozilla.org/intl/converter-output-stream;1"]
@@ -1365,16 +1374,13 @@ function IETwriteDataOnDiskWithCharset(file,data,append,fname,time) {
 		os.writeString(data);
 	os.close();
 	foStream.close();
-	if (time && IETprefs.getBoolPref("mboximport.export.set_filetime"))
+	if (time && IETprefs.getBoolPref("extensions.importexporttools.export.set_filetime"))
 		file.lastModifiedTime = time;
 }
 
 function copyMSGtoClip() {
-	// TB3 has not GetFirstSelectedMessage function
-	if ( typeof GetFirstSelectedMessage  == "undefined" )
-		 var msguri  = gFolderDisplay.selectedMessageUris[0];
-	else
-		var msguri  = GetFirstSelectedMessage();
+	var uris = IETgetSelectedMessages();
+	var msguri  = uris[0];
 	if (! msguri)
 		return;
 	exportAsHtml(msguri,null,null, null, null,true,null,null,null,null);
@@ -1427,11 +1433,7 @@ var copyHeaders = {
     },
 
 	start: function() {
-		// TB3 has not GetSelectedMessages function
-		if ( typeof GetSelectedMessages  == "undefined" )
-			 var mess  = gFolderDisplay.selectedMessageUris;
-		else
-			var mess = GetSelectedMessages();
+	        var mess  = IETgetSelectedMessages()
 		var msguri = mess[0];
 		var mms = messenger.messageServiceFromURI(msguri).QueryInterface(Components.interfaces.nsIMsgMessageService);
 		var streamListner = copyHeaders.getListner();
@@ -1452,9 +1454,9 @@ function IETescapeBeginningFrom(data) {
 }
 
 function IETstoreHeaders(msg, msguri, subfile,addBody) {
-	var subMaxLen = IETprefs.getIntPref("mboximport.subject.max_length")-1;
-	var authMaxLen = IETprefs.getIntPref("mboximport.author.max_length")-1;
-	var recMaxLen = IETprefs.getIntPref("mboximport.recipients.max_length")-1;
+	var subMaxLen = IETprefs.getIntPref("extensions.importexporttools.subject.max_length")-1;
+	var authMaxLen = IETprefs.getIntPref("extensions.importexporttools.author.max_length")-1;
+	var recMaxLen = IETprefs.getIntPref("extensions.importexporttools.recipients.max_length")-1;
 	try {
 		// Cut the subject, the author and the recipients at 50 chars
 		if (msg.mime2DecodedSubject) 
@@ -1584,6 +1586,8 @@ function IETstoreBody(msguri) {
 	IETwritestatus(mboximportbundle.GetStringFromName("exported")+" "+IETexported+" "+mboximportbundle.GetStringFromName("msgs")+" "+(IETtotal+IETskipped));
 	return text;
 }
+
+
 
 
 	

@@ -56,7 +56,6 @@
 <!ENTITY emlExport "Export priečinkov ako samostatné súbory:">
 <!ENTITY selExport "Export vybraných správ:">
 <!ENTITY MBcaptionlabel1 "Nastavenia exportovania">
-<!ENTITY saveProfile "Uložiť všetky súbory profilu">
 <!ENTITY saveProfileMail "Uložiť všetky mailové súbory">
 <!ENTITY sdExportButton "Exportovať">
 <!ENTITY sdMessages "Správy">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "Importovať všetky .eml súbory z priečinka">
 <!ENTITY importMAILDIR "Priečinok pošty na import">
 <!ENTITY withattach "(with attachments)">
+<!ENTITY asPDF "PDF format">
+<!ENTITY importProfile "Import profile">
+<!ENTITY csvSep "Separator for export in CSV format:">
+<!ENTITY saveProfile "Uložiť všetky súbory profilu">

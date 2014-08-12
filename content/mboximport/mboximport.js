@@ -12,6 +12,109 @@ var IETcount;
 var gNeedCompact;
 var gMsgFolderImported;
 
+var IETprintPDFmain = {
+
+	print : function(allMessages) {
+		var msgFolders = GetSelectedMsgFolders();
+		if (msgFolders.length > 1) {
+			alert(mboximportbundle.GetStringFromName("noPDFmultipleFolders"));
+			return;
+		}		
+		var question = IETformatWarning(1);
+		if (! question) 
+			return;
+		question = IETformatWarning(0);
+		if (! question) 
+			return;
+		if (! allMessages)
+			IETprintPDFmain.uris = gFolderDisplay.selectedMessageUris;
+		else {
+			IETprintPDFmain.uris = [];
+			msgFolder = msgFolders[0];
+			var isVirtFol = msgFolder ? msgFolder.flags & 0x0020 : false;
+			if (isVirtFol) {
+				var total = msgFolder.getTotalMessages(false);
+				for (var i=0;i<total;i++) 
+					IETprintPDFmain.uris.push(gDBView.getURIForViewIndex(i))
+			}
+			else {
+				if (msgFolder.getMessages)
+					// Gecko 1.8 and earlier
+					var msgs = msgFolder.getMessages(null);
+				else
+					// Gecko 1.9
+					var msgs = msgFolder.messages;
+				while(msgs.hasMoreElements()) {
+					var msg = msgs.getNext();
+					msg = msg.QueryInterface(Components.interfaces.nsIMsgDBHdr);
+					var uri = msgFolder.getUriForMsg(msg);
+					IETprintPDFmain.uris.push(uri);
+				}
+			}
+		}
+		if (! IETprintPDFmain.uris)
+			return;
+		IETprintPDFmain.paramObj = {};
+		IETprintPDFmain.total = IETprintPDFmain.uris.length;
+		IETprintPDFmain.totalReal = IETprintPDFmain.total;
+		var dir = getPredefinedFolder(2);
+		if (! dir) {
+			var nsIFilePicker = Components.interfaces.nsIFilePicker;
+			var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
+			fp.init(window, mboximportbundle.GetStringFromName("filePickerExport"), nsIFilePicker.modeGetFolder);
+			var res=fp.show();
+			if (res==nsIFilePicker.returnOK) 
+				dir = fp.file;
+			else
+				return;
+		}
+		IETprintPDFmain.file = dir;
+		try {
+			if (IETprefs.getPrefType("print.always_print_silent") == 0 || ! IETprefs.getBoolPref("print.always_print_silent")) {
+				IETprefs.setBoolPref("print.always_print_silent", true);
+				IETprefs.setBoolPref("extensions.importexporttools.printPDF.restore_print_silent", true);
+			}
+		}
+		catch(e) {}
+		IETabort = false;
+		IETprintPDFmain.print2();
+	},
+
+	print2 : function() {
+		var uri = IETprintPDFmain.uris.pop();
+		IETprintPDFmain.total  = IETprintPDFmain.total  - 1;
+		var messageService = messenger.messageServiceFromURI(uri);
+		var aMsgHdr = messageService.messageURIToMsgHdr(uri);
+		var pdfName = getSubjectForHdr(aMsgHdr, IETprintPDFmain.file.path);
+		var fileClone = IETprintPDFmain.file.clone();
+		fileClone.append(pdfName+".pdf");
+		fileClone.createUnique(0,0644);
+		IETprintPDFmain.filePath = fileClone.path;
+		IETprefs.setBoolPref("extensions.importexporttools.printPDF.start", true);
+		var messageList = [uri];
+		IETwritestatus(mboximportbundle.GetStringFromName("exported")+": "+(IETprintPDFmain.totalReal-IETprintPDFmain.total)+"/"+IETprintPDFmain.totalReal); 
+		document.getElementById("IETabortIcon").collapsed = false;
+		if (! IETabort)
+			window.openDialog("chrome://messenger/content/msgPrintEngine.xul", "",
+        	        "chrome,dialog=no,all,centerscreen",
+        	         messageList.length, messageList, null,
+        	         false, Components.interfaces.nsIMsgPrintEngine.MNAB_PRINT_MSG);
+		else 
+			document.getElementById("IETabortIcon").collapsed = true;
+	}
+};
+
+function openProfileImportWizard() {
+	var quit = {};
+	window.openDialog("chrome://mboximport/content/profileImportWizard.xul","", "chrome,modal,centerscreen", quit);
+	var appStartup = Components.classes["@mozilla.org/toolkit/app-startup;1"]
+	                .getService(Components.interfaces.nsIAppStartup);
+	if (quit.value) 
+		setTimeout(function() {
+			appStartup.quit(Components.interfaces.nsIAppStartup.eAttemptQuit);	
+		}, 1000);
+}
+
 function openMboxDialog() {
 	if (IETstoreFormat() != 0) {
 		alert(mboximportbundle.GetStringFromName("noMboxStorage"));
@@ -57,7 +160,7 @@ function trytocopyMAILDIR() {
 
 	// initialize variables
 	var msgFolder = GetSelectedMsgFolders()[0];
-	var buildMSF = IETprefs.getBoolPref("mboximport.import.build_mbox_index");
+	var buildMSF = IETprefs.getBoolPref("extensions.importexporttools.import.build_mbox_index");
 	// var openProfDir = XXXX
 
 	// we don't import the file in imap or nntp accounts
@@ -86,7 +189,7 @@ function trytocopyMAILDIR() {
 	}
 	clonex.append(newfilename);
 	// add to the original filename a random number in range 0-999
-	if (IETprefs.getBoolPref("mboximport.import.name_add_number"))
+	if (IETprefs.getBoolPref("extensions.importexporttools.import.name_add_number"))
 		newfilename = newfilename+Math.floor(Math.random()*999); 
 	var k = 0;
 	// if exists a subfolder with this name, we change the random number, with max. 500 tests
@@ -168,9 +271,8 @@ function trytocopy(file,filename,msgFolder,keepstructure) {
 				return false;
 		}
 		else {
-			// alert("This seems to be a mbox file coming from Eudora.\nThunderbird can't handle this file, you must convert it in a standard mbox file");
-			alert(mboximportbundle.GetStringFromName("isEudora"));
-			return false;
+			if (! confirm(mboximportbundle.GetStringFromName("isNotStandard")))
+				return false;
 		}
 	}
 
@@ -186,7 +288,7 @@ function trytocopy(file,filename,msgFolder,keepstructure) {
 	clonex.append(newfilename);
 
 	// add to the original filename a random number in range 0-999
-	if (IETprefs.getBoolPref("mboximport.import.name_add_number"))
+	if (IETprefs.getBoolPref("extensions.importexporttools.import.name_add_number"))
 		newfilename = newfilename+Math.floor(Math.random()*999); 
 	var k = 0;
 	// if exists a subfolder with this name, we change the random number, with max. 500 tests
@@ -377,7 +479,7 @@ function importmbox(scandir,keepstructure,openProfDir, recursiveMode,msgFolder) 
 	// initialize variables
 	gMsgFolderImported = [];
 	gNeedCompact = false;
-	var buildMSF = IETprefs.getBoolPref("mboximport.import.build_mbox_index");
+	var buildMSF = IETprefs.getBoolPref("extensions.importexporttools.import.build_mbox_index");
 	var nsIFilePicker = Components.interfaces.nsIFilePicker;
 	var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
 	if (! scandir) {
@@ -442,7 +544,7 @@ function importmbox(scandir,keepstructure,openProfDir, recursiveMode,msgFolder) 
 				var mboxname=afile.leafName;
 				var mboxpath = afile.path;
 				if ( isMbox(afile) == 1) {
-					var ask = IETprefs.getBoolPref("mboximport.confirm.before_mbox_import");
+					var ask = IETprefs.getBoolPref("extensions.importexporttools.confirm.before_mbox_import");
 					if (ask) {
 						var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 							.getService(Components.interfaces.nsIPromptService);
@@ -454,7 +556,7 @@ function importmbox(scandir,keepstructure,openProfDir, recursiveMode,msgFolder) 
 						prompts.BUTTON_POS_0_DEFAULT;
 						var string = mboximportbundle.GetStringFromName("confirmimport")+ ' "'+  mboxpath + '" ?';
 						var button = prompts.confirmEx(window, "ImportExportTools", string , flags,  "","","", mboximportbundle.GetStringFromName("noWaring"), checkObj);
-						IETprefs.setBoolPref("mboximport.confirm.before_mbox_import", ! checkObj.value);
+						IETprefs.setBoolPref("extensions.importexporttools.confirm.before_mbox_import", ! checkObj.value);
 						if (button == 0)
 							var importThis = true;
 						else if (button == 2)
@@ -573,14 +675,16 @@ function exportSingleLocaleFolder(msgFolder,subfolder, keepstructure,destdirNSIF
 		// export the folder with the subfolders
 		// first we copy the folder, finding a good name from its displayed name
 		var newname =  findGoodFolderName(thefoldername,destdirNSIFILE,false);
-		filex.copyTo(destdirNSIFILE,newname);
+		if(filex.exists())
+			filex.copyTo(destdirNSIFILE,newname);
 		// then we export the subfolders
 		exportSubFolders(msgFolder,destdirNSIFILE, keepstructure);
 		IETwritestatus(mboximportbundle.GetStringFromName("exportOK"));
 	}
 	else if (subfolder && msgFolder.hasSubFolders && keepstructure) {
 		var newname =  findGoodFolderName(thefoldername,destdirNSIFILE,true);
-		filex.copyTo(destdirNSIFILE,newname);
+		if(filex.exists())
+			filex.copyTo(destdirNSIFILE,newname);
 		var sbd = filex.parent;
 		sbd.append(filex.leafName+".sbd");
 		if (sbd) {
@@ -600,7 +704,8 @@ function exportSingleLocaleFolder(msgFolder,subfolder, keepstructure,destdirNSIF
 	else {
 		//export just the folder
 		var newname =  findGoodFolderName(thefoldername,destdirNSIFILE,false);
-		filex.copyTo(destdirNSIFILE,newname);
+		if(filex.exists())
+			filex.copyTo(destdirNSIFILE,newname);
 		IETwritestatus(mboximportbundle.GetStringFromName("exportOK"));
 	}
 }
@@ -726,7 +831,7 @@ function exportSubFolders(msgFolder, destdirNSIFILE, keepstructure) {
 	
 
 function findGoodFolderName(foldername,destdirNSIFILE,structure) {
-	var overwrite = IETprefs.getBoolPref("mboximport.export.overwrite");
+	var overwrite = IETprefs.getBoolPref("extensions.importexporttools.export.overwrite");
 	var index = 0;
 	var nameIndex = "";
 	var NSclone = destdirNSIFILE.clone();
@@ -769,8 +874,8 @@ function importALLasEML(recursive) {
 	fp.init(window, mboximportbundle.GetStringFromName("searchdir"), nsIFilePicker.modeGetFolder);
 	// Set the filepicker to open the last opened directory
 	try {
-		if (IETprefs.prefHasUserValue("mboximport.import.lastdir")) 
-			fp.displayDirectory = IETprefs.getComplexValue("mboximport.import.lastdir", Components.interfaces.nsILocalFile);
+		if (IETprefs.prefHasUserValue("extensions.importexporttools.import.lastdir")) 
+			fp.displayDirectory = IETprefs.getComplexValue("extensions.importexporttools.import.lastdir", Components.interfaces.nsILocalFile);
 	}
 	catch(e) {}
 	var res=fp.show();
@@ -778,7 +883,7 @@ function importALLasEML(recursive) {
 	IETwritestatus(mboximportbundle.GetStringFromName("importEMLstart")); 
 	if (res==nsIFilePicker.returnOK) {
 		try {
-			IETprefs.setComplexValue("mboximport.import.lastdir", Components.interfaces.nsILocalFile, fp.file);
+			IETprefs.setComplexValue("extensions.importexporttools.import.lastdir", Components.interfaces.nsILocalFile, fp.file);
 		}
 		catch(e) {}
 		setTimeout(function(){RUNimportALLasEML(fp.file,recursive);}, 1000);
@@ -849,8 +954,8 @@ function importEMLs() {
 	var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
 	fp.init(window, mboximportbundle.GetStringFromName("filePickerImportMSG"), nsIFilePicker.modeOpenMultiple);
 	// Set the filepicker to open the last opened directory
-	if(IETprefs.prefHasUserValue("mboximport.import.lastdir")) 
-		fp.displayDirectory = IETprefs.getComplexValue("mboximport.import.lastdir", Components.interfaces.nsILocalFile);
+	if(IETprefs.prefHasUserValue("extensions.importexporttools.import.lastdir")) 
+		fp.displayDirectory = IETprefs.getComplexValue("extensions.importexporttools.import.lastdir", Components.interfaces.nsILocalFile);
 	fp.appendFilter(mboximportbundle.GetStringFromName("emailFiles"), "*.eml; *.emlx; *.nws");
 	fp.appendFilter("All files", "*.*");
 	var res=fp.show();
@@ -867,7 +972,7 @@ function importEMLs() {
 		gEMLtotal = fileArray.length;
 		IETwritestatus(mboximportbundle.GetStringFromName("importEMLstart"));
 		var dir = fileArray[0].parent;
-		IETprefs.setComplexValue("mboximport.import.lastdir", Components.interfaces.nsILocalFile, dir);
+		IETprefs.setComplexValue("extensions.importexporttools.import.lastdir", Components.interfaces.nsILocalFile, dir);
 		trytoimportEML(fileArray[0],msgFolder,false, fileArray, false);
 	}
 }
@@ -1175,7 +1280,7 @@ function IETimportSMS() {
 					var myname = identity.fullName;
 				else
 					var myname = myAccountManager.defaultAccount.defaultIdentity.fullName;
-				var subOn = IETprefs.getBoolPref("mboximport.sms.add_subject");
+				var subOn = IETprefs.getBoolPref("extensions.importexporttools.sms.add_subject");
 				
 				for (var i=0;i<smss.length;i++) {
 					var card = null;

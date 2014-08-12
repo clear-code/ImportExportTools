@@ -56,7 +56,6 @@
 <!ENTITY emlExport "Mappen exporteren als losse bestanden:">
 <!ENTITY selExport "Geselecteerde berichten exporteren:">
 <!ENTITY MBcaptionlabel1 "Algemene instellingen">
-<!ENTITY saveProfile "Alle profielbestanden opslaan">
 <!ENTITY saveProfileMail "Alle mailbestanden opslaan">
 <!ENTITY sdExportButton "Exporteren">
 <!ENTITY sdMessages "Berichten">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "Alle EML-bestanden uit een map importeren">
 <!ENTITY importMAILDIR "Maildir-map importeren">
 <!ENTITY withattach "(met bijlagen)">
+<!ENTITY asPDF "PDF-opmaak">
+<!ENTITY importProfile "Profiel importeren">
+<!ENTITY csvSep "Scheidingsteken voor exporteren in CSV-opmaak:">
+<!ENTITY saveProfile "Alle profielbestanden opslaan">

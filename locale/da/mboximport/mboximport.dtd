@@ -1,6 +1,6 @@
 <!ENTITY exportWithSub "Eksporter mappe med undermapper (enkel)">
 <!ENTITY importMbox "Importer mbox-fil">
-<!ENTITY labelmenuMI "Import/Eksport">
+<!ENTITY labelmenuMI "ImportEksportTools">
 <!ENTITY MBlabel1 "Overskriv mbox-filer med det samme navn i destinationsmappen">
 <!ENTITY importDir "Vælg en mappe og find mbox-filerne til import">
 <!ENTITY labelmenuMItools "ImportExportTools">
@@ -18,7 +18,7 @@
 <!ENTITY saveSelected "Gem valgte meddelelser">
 <!ENTITY justIndex "Kun indeks">
 <!ENTITY toClip "Kopier meddelelse til udklipsholder">
-<!ENTITY MBlabel3 "Bed om bekræftelse, før import af mbox-filer fra en mappe">
+<!ENTITY MBlabel3 "Bed om bekræftelse før import af mbox-filer fra en mappe">
 <!ENTITY MBlabel4 "HTML-format som vist i meddelelsesruden">
 <!ENTITY MBlabel5 "Kopier kun til udklipsholder i tekstformat (kan give kompatibilitetsproblemer)">
 <!ENTITY MBlabel6 "Hvis datoen er der, sæt den i begyndelsen af de eksporterede filer">
@@ -26,7 +26,7 @@
 <!ENTITY MBlabel7b "tegn">
 <!ENTITY MBlabel7c "Maksimum længde på afsenders navn:">
 <!ENTITY MBlabel7d "Maksimum længde på modtagers navn:">
-<!ENTITY oneFile "som enkelt tekstfil">
+<!ENTITY oneFile "Som enkelt tekstfil">
 <!ENTITY importAttachedEML "Importer meddelelse i denne mappe">
 <!ENTITY iHTML "(HTML)">
 <!ENTITY iCSV "(CSV)">
@@ -44,7 +44,7 @@
 <!ENTITY misc "Diverse">
 <!ENTITY filenameFormat "Filnavne">
 <!ENTITY savedirs "Eksporter mapper">
-<!ENTITY addTimestamp "Tilføj data til filegenskaber">
+<!ENTITY addTimestamp "Tilføj dato til filegenskaber">
 <!ENTITY customizeFilename "Anvend følgende format:">
 <!ENTITY captionCustomize "Tilpas filnavnes format">
 <!ENTITY browse "Gennemse…">
@@ -56,7 +56,6 @@
 <!ENTITY emlExport "Eksporter mapper som enkelte filer:">
 <!ENTITY selExport "Eksporter valgte meddelelser:">
 <!ENTITY MBcaptionlabel1 "Generelle indstillinger">
-<!ENTITY saveProfile "Gem alle profilfiler">
 <!ENTITY saveProfileMail "Gem alle mailfiler">
 <!ENTITY sdExportButton "Eksporter">
 <!ENTITY sdMessages "Meddelelser">
@@ -88,7 +87,7 @@
 <!ENTITY copyFolderPath "Kopier mappens sti på disken">
 <!ENTITY importSMS "Importer SMS">
 <!-- 'SMS Backup and Restore' is the name of an Android application and so maybe it's better not to translate it -->
-<!ENTITY android "'SMS Backup &amp; Restore' til Android">
+<!ENTITY android "'SMS Backup and Restore' til Android">
 <!ENTITY sender "Afsender">
 <!ENTITY recipient "Modtager">
 <!ENTITY exportRemoteFolder "Eksporter fjernmappe">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "Importer alle meddelelser fra en mappe">
 <!ENTITY importMAILDIR "Importer Maildir-mappe">
 <!ENTITY withattach "(med vedhæftede filer)">
+<!ENTITY asPDF "PDF-format">
+<!ENTITY importProfile "Importer profil">
+<!ENTITY csvSep "Separator til eksport i CSV-format:">
+<!ENTITY saveProfile "Eksporter profil">

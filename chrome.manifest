@@ -1,24 +1,28 @@
 overlay	chrome://messenger/content/mailWindowOverlay.xul	chrome://mboximport/content/mboximport.xul
 overlay	chrome://messenger/content/messenger.xul	chrome://mboximport/content/messengerOverlay.xul
 overlay	chrome://messenger/content/SearchDialog.xul	chrome://mboximport/content/sdOverlay.xul
+overlay	chrome://messenger/content/msgPrintEngine.xul	chrome://mboximport/content/printEngineWindowOverlay.xul
 content	mboximport	jar:chrome/mboximport.jar!/content/mboximport/
 
 locale	mboximport	en-US	jar:chrome/mboximport.jar!/locale/en-US/mboximport/
-locale	mboximport	ca	jar:chrome/mboximport.jar!/locale/ca/mboximport/
-locale	mboximport	da	jar:chrome/mboximport.jar!/locale/da/mboximport/
+locale	mboximport	ca		jar:chrome/mboximport.jar!/locale/ca/mboximport/
+locale	mboximport	da		jar:chrome/mboximport.jar!/locale/da/mboximport/
+locale	mboximport	de		jar:chrome/mboximport.jar!/locale/de/mboximport/
 locale	mboximport	es-ES	jar:chrome/mboximport.jar!/locale/es-ES/mboximport/
 locale	mboximport	fr		jar:chrome/mboximport.jar!/locale/fr/mboximport/
 locale	mboximport	gl-ES	jar:chrome/mboximport.jar!/locale/gl-ES/mboximport/
 locale	mboximport	hu-HU	jar:chrome/mboximport.jar!/locale/hu-HU/mboximport/
-locale	mboximport	it	jar:chrome/mboximport.jar!/locale/it/mboximport/
-locale	mboximport	ja	jar:chrome/mboximport.jar!/locale/ja/mboximport/
+locale	mboximport	hy-AM	jar:chrome/mboximport.jar!/locale/hu-HU/mboximport/
+locale	mboximport	it		jar:chrome/mboximport.jar!/locale/it/mboximport/
+locale	mboximport	ja		jar:chrome/mboximport.jar!/locale/ja/mboximport/
 locale	mboximport	ko-KR	jar:chrome/mboximport.jar!/locale/ko-KR/mboximport/
-locale	mboximport	nl	jar:chrome/mboximport.jar!/locale/nl/mboximport/
+locale	mboximport	nl		jar:chrome/mboximport.jar!/locale/nl/mboximport/
+locale	mboximport	pl		jar:chrome/mboximport.jar!/locale/pl/mboximport/
 locale	mboximport	pt-PT	jar:chrome/mboximport.jar!/locale/pt-PT/mboximport/
-locale	mboximport      ru   jar:chrome/mboximport.jar!/locale/ru/mboximport/
+locale	mboximport    ru   		jar:chrome/mboximport.jar!/locale/ru/mboximport/
 locale	mboximport	sk-SK	jar:chrome/mboximport.jar!/locale/sk-SK/mboximport/
 locale	mboximport	sv-SE	jar:chrome/mboximport.jar!/locale/sv-SE/mboximport/
 locale	mboximport	zh-CN	jar:chrome/mboximport.jar!/locale/zh-CN/mboximport/
-locale	mboximport	de	jar:chrome/mboximport.jar!/locale/de/mboximport/
-locale	mboximport	pl	jar:chrome/mboximport.jar!/locale/pl/mboximport/
+
+
 

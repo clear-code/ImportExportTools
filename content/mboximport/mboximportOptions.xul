@@ -13,6 +13,7 @@
         ondialogaccept="saveMboxImportPrefs();"
         title="ImportExportTools">
 <script type="application/x-javascript" src="chrome://mboximport/content/mboximportOptions.js" />
+<script type="application/x-javascript" src="chrome://mboximport/content/utils.js" />
 
 <tabbox>
 	<tabs>
@@ -46,6 +47,10 @@
     </hbox>
     <hbox align="center">
         <checkbox id="addNumber" label="&addNumber.label;" /> 
+ </hbox>
+	<hbox align="center">
+    	    <label value="&csvSep;"  />
+	    <textbox id="csvSep" size="1" maxlength="1" />
     </hbox>
 	<hbox align="center">
     	    <label value="&textCharset;"  />
@@ -58,13 +63,13 @@
 			<column />
 		</columns>
 		<rows>
-			<row>
+		<row align="center">
 			   <label value="&MBlabel7a;" /><textbox id="MBsubmaxlen" maxlength="3" size="3" /><label value=" &MBlabel7b;"/>
 		</row>
-   <row>
+   <row align="center">
         <label value="&MBlabel7c;" /><textbox id="MBauthmaxlen" maxlength="3" size="3" /><label value=" &MBlabel7b;"/>
     </row>
-   <row>
+   <row align="center">
         <label value="&MBlabel7d;" /><textbox id="MBrecmaxlen" maxlength="3" size="3" /><label value=" &MBlabel7b;"/>
     </row>
 	</rows>

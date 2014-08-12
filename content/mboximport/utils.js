@@ -14,14 +14,14 @@ function getPredefinedFolder(type) {
 	// type 1 = all messages
 	// type 2 = selected messages
 	switch(type) {
-		case 0 : var use_dir = "mboximport.exportMBOX.use_dir";
-			var dir_path = "mboximport.exportMBOX.dir";
+		case 0 : var use_dir = "extensions.importexporttools.exportMBOX.use_dir";
+			var dir_path = "extensions.importexporttools.exportMBOX.dir";
 			break;
-		case 1 : var use_dir = "mboximport.exportEML.use_dir";
-			var dir_path = "mboximport.exportEML.dir";
+		case 1 : var use_dir = "extensions.importexporttools.exportEML.use_dir";
+			var dir_path = "extensions.importexporttools.exportEML.dir";
 			break;
-		default : var use_dir = "mboximport.exportMSG.use_dir";
-			var dir_path = "mboximport.exportMSG.dir";
+		default : var use_dir = "extensions.importexporttools.exportMSG.use_dir";
+			var dir_path = "extensions.importexporttools.exportMSG.dir";
 	}
 	if (! IETprefs.getBoolPref(use_dir))
 		return null;
@@ -45,10 +45,10 @@ function getPredefinedFolder(type) {
 }
 
 function getSubjectForHdr(hdr,dirPath) {
-	var emlNameType = IETprefs.getIntPref("mboximport.exportEML.filename_format");	
-	var mustcorrectname = IETprefs.getBoolPref("mboximport.export.filenames_toascii");
-	var cutSubject =  IETprefs.getBoolPref("mboximport.export.cut_subject");
-	var cutFileName = IETprefs.getBoolPref("mboximport.export.cut_filename");
+	var emlNameType = IETprefs.getIntPref("extensions.importexporttools.exportEML.filename_format");	
+	var mustcorrectname = IETprefs.getBoolPref("extensions.importexporttools.export.filenames_toascii");
+	var cutSubject =  IETprefs.getBoolPref("extensions.importexporttools.export.cut_subject");
+	var cutFileName = IETprefs.getBoolPref("extensions.importexporttools.export.cut_filename");
 	var subMaxLen = cutSubject ? 50 : -1;
 
 	// Subject
@@ -69,7 +69,7 @@ function getSubjectForHdr(hdr,dirPath) {
 	var key = hdr.messageKey;
 
 	if (emlNameType == 2) {
-		var pattern = IETprefs.getCharPref("mboximport.export.filename_pattern");
+		var pattern = IETprefs.getCharPref("extensions.importexporttools.export.filename_pattern");
 		// Name
 		var authName = formatNameForSubject(hdr.mime2DecodedAuthor, false);
 		var recName = formatNameForSubject(hdr.mime2DecodedRecipients, true);
@@ -88,8 +88,8 @@ function getSubjectForHdr(hdr,dirPath) {
 		pattern = pattern.replace("%a", authName);
 		pattern = pattern.replace("%r", recName);
 		pattern = pattern.replace(/-%e/g, "");
-		if (IETprefs.getBoolPref("mboximport.export.filename_add_prefix")) {
-			var prefix = IETprefs.getComplexValue("mboximport.export.filename_prefix",Components.interfaces.nsISupportsString).data;
+		if (IETprefs.getBoolPref("extensions.importexporttools.export.filename_add_prefix")) {
+			var prefix = IETprefs.getComplexValue("extensions.importexporttools.export.filename_prefix",Components.interfaces.nsISupportsString).data;
 			pattern = prefix + pattern;
 		}
 		var fname = pattern;
@@ -122,7 +122,7 @@ function formatNameForSubject(str,recipients) {
 }
 
 function dateInSecondsTo8601(secs) {
-	var addTime = IETprefs.getBoolPref("mboximport.export.filenames_addtime");
+	var addTime = IETprefs.getBoolPref("extensions.importexporttools.export.filenames_addtime");
 	var msgDate = new Date(secs*1000);
 	var msgDate8601 = msgDate.getFullYear();
 	if (msgDate.getMonth() < 9)
@@ -134,7 +134,7 @@ function dateInSecondsTo8601(secs) {
 	else
 		var day = msgDate.getDate();
 	var msgDate8601string = msgDate8601.toString()+month.toString()+day.toString();
-	if (addTime &&  IETprefs.getIntPref("mboximport.exportEML.filename_format") == 2) {
+	if (addTime &&  IETprefs.getIntPref("extensions.importexporttools.exportEML.filename_format") == 2) {
 		if (msgDate.getHours() < 10)
 			var hours = "0"+msgDate.getHours();
 		else
@@ -149,15 +149,15 @@ function dateInSecondsTo8601(secs) {
 }
 
 function IETexport_all(just_mail) {
-	if ( (IETprefs.getBoolPref("mboximport.export_all.warning1") && ! just_mail) || (IETprefs.getBoolPref("mboximport.export_all.warning2") && just_mail) ) {
+	if ( (IETprefs.getBoolPref("extensions.importexporttools.export_all.warning1") && ! just_mail) || (IETprefs.getBoolPref("extensions.importexporttools.export_all.warning2") && just_mail) ) {
 		var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 		.getService(Components.interfaces.nsIPromptService);
 		var check = {value: false};
 		var result = prompts.confirmCheck(null, "ImportExportTools", mboximportbundle.GetStringFromName("backupWarning"), mboximportbundle.GetStringFromName("noWaring") , check); 
 		if (just_mail)
-			IETprefs.setBoolPref("mboximport.export_all.warning2", ! check.value);
+			IETprefs.setBoolPref("extensions.importexporttools.export_all.warning2", ! check.value);
 		else
-			IETprefs.setBoolPref("mboximport.export_all.warning1", ! check.value);
+			IETprefs.setBoolPref("extensions.importexporttools.export_all.warning1", ! check.value);
 		if (! result) 
 			return;
 	}
@@ -242,25 +242,35 @@ function saveExternalMailFolders(file) {
 	}
 }
 
-function IETformatWarning() {
-	if ( ! IETprefs.getBoolPref("mboximport.export.format_warning") )
+function IETformatWarning(warning_type) {
+	if (warning_type == 0 && ! IETprefs.getBoolPref("extensions.importexporttools.export.format_warning") )
+		return true;
+	if (warning_type == 1 && ! IETprefs.getBoolPref("extensions.importexporttools.export.import_warning") )
 		return true;
 	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 		.getService(Components.interfaces.nsIPromptService);
 	var check = {value: false};
-	var result = prompts.confirmCheck(null, "ImportExportTools", mboximportbundle.GetStringFromName("formatWarning") , mboximportbundle.GetStringFromName("noWaring") , check); 
-	IETprefs.setBoolPref("mboximport.export.format_warning", ! check.value);
+	if (warning_type == 0)  {
+		var text = mboximportbundle.GetStringFromName("formatWarning");
+		var pref = "extensions.importexporttools.export.format_warning";
+	}
+	else {
+		var text = mboximportbundle.GetStringFromName("formatWarningImport");
+		var pref = "extensions.importexporttools.export.import_warning";
+	}
+	var result = prompts.confirmCheck(null, "ImportExportTools", text , mboximportbundle.GetStringFromName("noWaring") , check); 
+	IETprefs.setBoolPref(pref, ! check.value);
 	return result;
 }
 
 function IETremoteWarning() {
-	if ( ! IETprefs.getBoolPref("mboximport.export.remote_warning") )
+	if ( ! IETprefs.getBoolPref("extensions.importexporttools.export.remote_warning") )
 		return true;
 	var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 		.getService(Components.interfaces.nsIPromptService);
 	var check = {value: false};
 	var result = prompts.confirmCheck(null, "ImportExportTools", mboximportbundle.GetStringFromName("remoteWarning"), mboximportbundle.GetStringFromName("noWaring") , check); 
-	IETprefs.setBoolPref("mboximport.export.remote_warning", ! check.value);
+	IETprefs.setBoolPref("extensions.importexporttools.export.remote_warning", ! check.value);
 	return result;
 }
 
@@ -293,7 +303,7 @@ function isMbox(file) {
 function IETstr_converter(str) {
 	var convStr;
 	try {
-		var charset = IETprefs.getCharPref("mboximport.export.filename_charset");
+		var charset = IETprefs.getCharPref("extensions.importexporttools.export.filename_charset");
 		if (charset == "")
 			return str;
 		var uConv = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"]
@@ -308,7 +318,7 @@ function IETstr_converter(str) {
 }
 
 function nametoascii(str) {
-	if (! IETprefs.getBoolPref("mboximport.export.filenames_toascii")) {
+	if (! IETprefs.getBoolPref("extensions.importexporttools.export.filenames_toascii")) {
 		str = str.replace(/[\x00-\x19]/g,"_");
 		return str.replace(/[\/\\:,<>*\?\"\|]/g,"_");
 	}
@@ -435,9 +445,30 @@ function IETstoreFormat() {
 	return storeFormat;
 }
 
+function IETpickFile(el) {
+	var nsIFilePicker = Components.interfaces.nsIFilePicker;
+	var fp = Components.classes["@mozilla.org/filepicker;1"]
+		.createInstance(nsIFilePicker);
+	fp.init(window, "", nsIFilePicker.modeGetFolder);
+	var res = fp.show();
+ 	if (res == nsIFilePicker.returnOK) {
+		var box = el.previousSibling;
+		box.value = fp.file.path;
+	}
+}
+
+function IETgetSelectedMessages() {
+	// TB3 has not GetSelectedMessages function
+	if ( typeof GetSelectedMessages  == "undefined" )
+		 var msgs  = gFolderDisplay.selectedMessageUris;
+	else
+		var msgs = GetSelectedMessages();
+	return msgs;
+}
+
 var IETlogger = {
 	write : function(string) {
-		if (! IETprefs.getBoolPref("mboximport.log.enable"))
+		if (! IETprefs.getBoolPref("extensions.importexporttools.log.enable"))
 			return;
 		if (! IETlogger.file) {
 			IETlogger.file = Components.classes["@mozilla.org/file/directory_service;1"]

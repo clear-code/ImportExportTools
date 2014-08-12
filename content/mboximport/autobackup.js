@@ -13,8 +13,8 @@ var autoBackup = {
 		// saveMode values:
 		// 0 = save all; 1 = save just if new; 
 		// 2 = save just if new with custom name, save all with unique name
-		autoBackup.saveMode = gBackupPrefBranch.getIntPref("mboximport.autobackup.save_mode");
-		autoBackup.type = gBackupPrefBranch.getIntPref("mboximport.autobackup.type");
+		autoBackup.saveMode = gBackupPrefBranch.getIntPref("extensions.importexporttools.autobackup.save_mode");
+		autoBackup.type = gBackupPrefBranch.getIntPref("extensions.importexporttools.autobackup.type");
 		return false;
 	},
 
@@ -36,7 +36,7 @@ var autoBackup = {
 	
 	getDir : function() {
 		try {
-			var dir = gBackupPrefBranch.getCharPref("mboximport.autobackup.dir");
+			var dir = gBackupPrefBranch.getCharPref("extensions.importexporttools.autobackup.dir");
 			var file = Components.classes["@mozilla.org/file/local;1"]
 				.createInstance(Components.interfaces.nsILocalFile); 
 			file.initWithPath(dir); 
@@ -74,7 +74,7 @@ var autoBackup = {
 	},
 
 	start : function() {
-		// "dir" è la directory di destinazione del backup, quella scelta dall'utente
+		// "dir" is the target directory for the backup
 		var dir = autoBackup.getDir();
 		if (! dir)
 			return;
@@ -84,10 +84,10 @@ var autoBackup = {
 			window.close();
 			return;
 		}
-		var nameType = gBackupPrefBranch.getIntPref("mboximport.autobackup.dir_name_type");
+		var nameType = gBackupPrefBranch.getIntPref("extensions.importexporttools.autobackup.dir_name_type");
 		if (nameType == 1) {
 			try {
-				var dirName = gBackupPrefBranch.getCharPref("mboximport.autobackup.dir_custom_name");
+				var dirName = gBackupPrefBranch.getCharPref("extensions.importexporttools.autobackup.dir_custom_name");
 			}
 			catch(e) {
 				var dirName = null;
@@ -122,7 +122,7 @@ var autoBackup = {
 			autoBackup.unique = true;
 		}
 	
-		// A questo punto "clone" è la directory contenitore del backup		
+		// Here "clone" is the container directory for the backup
 			
 		var str = "Backup date: "+autoBackup.now.toLocaleString()+"\r\n\r\n"+"Saved files:\r\n";
 		autoBackup.logFile = clone.clone();
@@ -166,11 +166,10 @@ var autoBackup = {
 		else
 			var force = false;
 		var lmt = entry.lastModifiedTime / 1000;
+		// Check if exists a older file to replace in the backup directory
 		if (force || lmt > autoBackup.last) {
 			var entrypath = entry.parent.path;
 			var filepath = destDir.path;
-			// Qui si vede se il file da salvare già esiste nella directory di destinazione
-			// Se esiste viene cancellato, per rimpiazzarlo con la versione più nuova che è stata trovata
 			var newpath = entrypath.replace(root.path,filepath);
 			var LF = Components.classes["@mozilla.org/file/local;1"]
 				.createInstance(Components.interfaces.nsILocalFile);
@@ -187,10 +186,12 @@ var autoBackup = {
 		}
 	},
 
-	// dirToScan è la directory da esaminare per vedere quali file vanno copiati
-	// destDir è la directory in cui i file verranno salvati per il backup
-	// root è il file "radice" dei file da salvare --> è la directory del profilo oppure la directory esterna dell'account
+	// dirToScan is the directory to scan
+	// destDir is the target directory for the backup
+	// root is the root directory of the files to save --> it's the profile directory or the external directory of the account
 	scanDir : function(dirToScan,destDir,root) {
+		if (! dirToScan.exists())
+			return;
 		var entries = dirToScan.directoryEntries;
 		while(entries.hasMoreElements()) {
 			var entry = entries.getNext();	
@@ -231,7 +232,7 @@ var autoBackup = {
 		}
 		else {
 			document.getElementById("pm").value = 100;
-			gBackupPrefBranch.setIntPref("mboximport.autobackup.last", autoBackup.time);
+			gBackupPrefBranch.setIntPref("extensions.importexporttools.autobackup.last", autoBackup.time);
 			IETrunTimeEnable(autoBackup.IETmaxRunTime);
 			document.getElementById("start").collapsed = true;
 			document.getElementById("done").removeAttribute("collapsed");
@@ -262,7 +263,7 @@ var autoBackup = {
 				parentDir = serverFile.parent.parent;
 			var clone = file.clone();
 			clone.append(serverFile.leafName);
-			// Ora "clone" ha questo path --> <directory backup>/ExternalMailFolder/<nome della directory root usata dall'account
+			// Now "clone" path is  --> <directory backup>/ExternalMailFolder/<account root directory leafname>
 			if (! parentDir || ! autoBackup.profDir.equals(parentDir)) 	
 				autoBackup.scanDir(serverFile,clone,serverFile);
 		}
