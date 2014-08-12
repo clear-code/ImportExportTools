@@ -56,7 +56,6 @@
 <!ENTITY emlExport "Exporta les carpetes a fitxers individuals:">
 <!ENTITY selExport "Exporta els missatges seleccionats:">
 <!ENTITY MBcaptionlabel1 "Paràmetres generals">
-<!ENTITY saveProfile "Desa tots els fitxers de perfil">
 <!ENTITY saveProfileMail "Desa tots els fitxers de correu">
 <!ENTITY sdExportButton "Exporta">
 <!ENTITY sdMessages "Missatges">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "Importa tots els fitxers eml d\'un directori">
 <!ENTITY importMAILDIR "Importa la carpeta Maildir">
 <!ENTITY withattach "(amb adjunts)">
+<!ENTITY asPDF "PDF format">
+<!ENTITY importProfile "Import profile">
+<!ENTITY csvSep "Separator for export in CSV format:">
+<!ENTITY saveProfile "Desa tots els fitxers de perfil">

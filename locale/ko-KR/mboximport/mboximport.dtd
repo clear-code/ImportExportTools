@@ -56,7 +56,6 @@
 <!ENTITY emlExport "단일 파일로 폴더 내보내기:">
 <!ENTITY selExport "선택된 메세지 내보내기:">
 <!ENTITY MBcaptionlabel1 "일반 설정">
-<!ENTITY saveProfile "모든 프로파일 파일 저장">
 <!ENTITY saveProfileMail "모든 메일 파일 저장">
 <!ENTITY sdExportButton "내보내기">
 <!ENTITY sdMessages "메세지">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "디렉토리로 부터 모든 eml 파일 불러오기">
 <!ENTITY importMAILDIR "불러올 메일 디렉토리 폴더">
 <!ENTITY withattach "(with attachments)">
+<!ENTITY asPDF "PDF format">
+<!ENTITY importProfile "Import profile">
+<!ENTITY csvSep "Separator for export in CSV format:">
+<!ENTITY saveProfile "모든 프로파일 파일 저장">

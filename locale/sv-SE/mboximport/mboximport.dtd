@@ -56,7 +56,6 @@
 <!ENTITY emlExport "Exportera mappar som enskilda filer:">
 <!ENTITY selExport "Exportera markerade meddelanden:">
 <!ENTITY MBcaptionlabel1 "Allmänt">
-<!ENTITY saveProfile "Spara alla profilfiler">
 <!ENTITY saveProfileMail "Spara alla e-postfiler">
 <!ENTITY sdExportButton "Exportera">
 <!ENTITY sdMessages "Meddelanden">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "Importera alla EML-filer från en mapp">
 <!ENTITY importMAILDIR "Import Maildir folder">
 <!ENTITY withattach "(with attachments)">
+<!ENTITY asPDF "PDF format">
+<!ENTITY importProfile "Import profile">
+<!ENTITY csvSep "Separator for export in CSV format:">
+<!ENTITY saveProfile "Spara alla profilfiler">

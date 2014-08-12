@@ -56,7 +56,6 @@
 <!ENTITY emlExport "Folder eksportu dla pojedynczych plików:">
 <!ENTITY selExport "Folder eksportu dla wybranych wiadomości:">
 <!ENTITY MBcaptionlabel1 "Ogólne">
-<!ENTITY saveProfile "Zapisz wszystkie pliki profilu">
 <!ENTITY saveProfileMail "Zapisz wszystkie pliki poczty">
 <!ENTITY sdExportButton "Eksportuj">
 <!ENTITY sdMessages "Wiadomości">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "Importuj wszystkie pliki eml z katalogu">
 <!ENTITY importMAILDIR "Importuj folder Maildir">
 <!ENTITY withattach "(with attachments)">
+<!ENTITY asPDF "PDF format">
+<!ENTITY importProfile "Import profile">
+<!ENTITY csvSep "Separator for export in CSV format:">
+<!ENTITY saveProfile "Zapisz wszystkie pliki profilu">

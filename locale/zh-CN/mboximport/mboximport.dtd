@@ -56,7 +56,6 @@
 <!ENTITY emlExport "将信件夹作为一个单独文件导出：">
 <!ENTITY selExport "导出选中的消息：">
 <!ENTITY MBcaptionlabel1 "导出设置">
-<!ENTITY saveProfile "保存所有配置文件">
 <!ENTITY saveProfileMail "保存所有邮件文件">
 <!ENTITY sdExportButton "导出">
 <!ENTITY sdMessages "消息">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "从一个目录中导入所有的eml文件">
 <!ENTITY importMAILDIR "导入 Maildir 文件夹">
 <!ENTITY withattach "带有附件">
+<!ENTITY asPDF "PDF format">
+<!ENTITY importProfile "Import profile">
+<!ENTITY csvSep "Separator for export in CSV format:">
+<!ENTITY saveProfile "保存所有配置文件">

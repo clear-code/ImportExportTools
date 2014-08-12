@@ -9,27 +9,27 @@ function setComplexPref(prefname,value) {
 }
 
 function initMboxImportPanel()  {
- 	document.getElementById("MBoverwrite").checked = prefs.getBoolPref("mboximport.export.overwrite");
-	document.getElementById("MBasciiname").checked = prefs.getBoolPref("mboximport.export.filenames_toascii");
-	document.getElementById("MBconfrimimport").checked = prefs.getBoolPref("mboximport.confirm.before_mbox_import");
-	document.getElementById("MBhtmlasdisplayed").checked = prefs.getBoolPref("mboximport.export.HTML_as_displayed");
-	document.getElementById("MBcliptextplain").checked = prefs.getBoolPref("mboximport.clipboard.always_just_text");
-	document.getElementById("MBsubmaxlen").value = prefs.getIntPref("mboximport.subject.max_length");
-	document.getElementById("MBauthmaxlen").value = prefs.getIntPref("mboximport.author.max_length");
-	document.getElementById("MBrecmaxlen").value = prefs.getIntPref("mboximport.recipients.max_length");
-	document.getElementById("setTimestamp").checked = prefs.getBoolPref("mboximport.export.set_filetime");
-	document.getElementById("addtimeCheckbox").checked = prefs.getBoolPref("mboximport.export.filenames_addtime");
-	document.getElementById("buildMSF").checked = prefs.getBoolPref("mboximport.import.build_mbox_index"); 
-	document.getElementById("addNumber").checked = prefs.getBoolPref("mboximport.import.name_add_number"); 
+ 	document.getElementById("MBoverwrite").checked = prefs.getBoolPref("extensions.importexporttools.export.overwrite");
+	document.getElementById("MBasciiname").checked = prefs.getBoolPref("extensions.importexporttools.export.filenames_toascii");
+	document.getElementById("MBconfrimimport").checked = prefs.getBoolPref("extensions.importexporttools.confirm.before_mbox_import");
+	document.getElementById("MBhtmlasdisplayed").checked = prefs.getBoolPref("extensions.importexporttools.export.HTML_as_displayed");
+	document.getElementById("MBcliptextplain").checked = prefs.getBoolPref("extensions.importexporttools.clipboard.always_just_text");
+	document.getElementById("MBsubmaxlen").value = prefs.getIntPref("extensions.importexporttools.subject.max_length");
+	document.getElementById("MBauthmaxlen").value = prefs.getIntPref("extensions.importexporttools.author.max_length");
+	document.getElementById("MBrecmaxlen").value = prefs.getIntPref("extensions.importexporttools.recipients.max_length");
+	document.getElementById("setTimestamp").checked = prefs.getBoolPref("extensions.importexporttools.export.set_filetime");
+	document.getElementById("addtimeCheckbox").checked = prefs.getBoolPref("extensions.importexporttools.export.filenames_addtime");
+	document.getElementById("buildMSF").checked = prefs.getBoolPref("extensions.importexporttools.import.build_mbox_index"); 
+	document.getElementById("addNumber").checked = prefs.getBoolPref("extensions.importexporttools.import.name_add_number"); 
 	
-	if (prefs.getIntPref("mboximport.exportEML.filename_format") == 2)
+	if (prefs.getIntPref("extensions.importexporttools.exportEML.filename_format") == 2)
 	 	document.getElementById("customizeFilenames").checked = true;
 	else
 		document.getElementById("customizeFilenames").checked = false;
 	
-	if (prefs.getPrefType("mboximport.exportMBOX.dir") > 0)
-		document.getElementById("export_mbox_dir").value = prefs.getComplexValue("mboximport.exportMBOX.dir",Components.interfaces.nsISupportsString).data;
-	if (prefs.getBoolPref("mboximport.exportMBOX.use_dir")) {
+	if (prefs.getPrefType("extensions.importexporttools.exportMBOX.dir") > 0)
+		document.getElementById("export_mbox_dir").value = prefs.getComplexValue("extensions.importexporttools.exportMBOX.dir",Components.interfaces.nsISupportsString).data;
+	if (prefs.getBoolPref("extensions.importexporttools.exportMBOX.use_dir")) {
 		document.getElementById("use_export_mbox_dir").checked = true;
 		document.getElementById("export_mbox_dir").removeAttribute("disabled");
 		document.getElementById("export_mbox_dir").nextSibling.removeAttribute("disabled");
@@ -40,9 +40,9 @@ function initMboxImportPanel()  {
 		document.getElementById("export_mbox_dir").nextSibling.setAttribute("disabled", "true");
 	}
 	
-	if (prefs.getPrefType("mboximport.exportEML.dir") > 0)
-		document.getElementById("export_eml_dir").value = prefs.getComplexValue("mboximport.exportEML.dir",Components.interfaces.nsISupportsString).data;
-	if (prefs.getBoolPref("mboximport.exportEML.use_dir")) {
+	if (prefs.getPrefType("extensions.importexporttools.exportEML.dir") > 0)
+		document.getElementById("export_eml_dir").value = prefs.getComplexValue("extensions.importexporttools.exportEML.dir",Components.interfaces.nsISupportsString).data;
+	if (prefs.getBoolPref("extensions.importexporttools.exportEML.use_dir")) {
 		document.getElementById("use_export_eml_dir").checked = true;
 		document.getElementById("export_eml_dir").removeAttribute("disabled");
 		document.getElementById("export_eml_dir").nextSibling.removeAttribute("disabled");
@@ -53,9 +53,9 @@ function initMboxImportPanel()  {
 		document.getElementById("export_eml_dir").nextSibling.setAttribute("disabled", "true");
 	}
 	
-	if (prefs.getPrefType("mboximport.exportMSG.dir") > 0)
-		document.getElementById("export_msgs_dir").value =prefs.getComplexValue("mboximport.exportMSG.dir",Components.interfaces.nsISupportsString).data;
-	if (prefs.getBoolPref("mboximport.exportMSG.use_dir")) {
+	if (prefs.getPrefType("extensions.importexporttools.exportMSG.dir") > 0)
+		document.getElementById("export_msgs_dir").value =prefs.getComplexValue("extensions.importexporttools.exportMSG.dir",Components.interfaces.nsISupportsString).data;
+	if (prefs.getBoolPref("extensions.importexporttools.exportMSG.use_dir")) {
 		document.getElementById("use_export_msgs_dir").checked = true;
 		document.getElementById("export_msgs_dir").removeAttribute("disabled");
 		document.getElementById("export_msgs_dir").nextSibling.removeAttribute("disabled");
@@ -66,8 +66,8 @@ function initMboxImportPanel()  {
 		document.getElementById("export_msgs_dir").nextSibling.setAttribute("disabled", "true");
 	}
 
-	if (prefs.getPrefType("mboximport.export.filename_pattern") > 0) {
-		var pattern = prefs.getCharPref("mboximport.export.filename_pattern");
+	if (prefs.getPrefType("extensions.importexporttools.export.filename_pattern") > 0) {
+		var pattern = prefs.getCharPref("extensions.importexporttools.export.filename_pattern");
 		var patternParts = pattern.split("-");
 	
 		for (var i=0;i<3;i++) {
@@ -91,28 +91,31 @@ function initMboxImportPanel()  {
 		}	
 	}
 	
-	document.getElementById("addPrefix").checked = prefs.getBoolPref("mboximport.export.filename_add_prefix");
+	document.getElementById("addPrefix").checked = prefs.getBoolPref("extensions.importexporttools.export.filename_add_prefix");
 	try {
-		document.getElementById("prefixText").value = prefs.getComplexValue("mboximport.export.filename_prefix",Components.interfaces.nsISupportsString).data;
+		document.getElementById("prefixText").value = prefs.getComplexValue("extensions.importexporttools.export.filename_prefix",Components.interfaces.nsISupportsString).data;
 	}
 	catch(e) {}
 
-	document.getElementById("cutSub").checked = prefs.getBoolPref("mboximport.export.cut_subject"); 
-	document.getElementById("cutFN").checked = prefs.getBoolPref("mboximport.export.cut_filename"); 
+	document.getElementById("cutSub").checked = prefs.getBoolPref("extensions.importexporttools.export.cut_subject"); 
+	document.getElementById("cutFN").checked = prefs.getBoolPref("extensions.importexporttools.export.cut_filename"); 
 	customNamesCheck(document.getElementById("customizeFilenames"));
 	try  {
-		var charset = prefs.getCharPref("mboximport.export.filename_charset");
-		var textCharset = prefs.getCharPref("mboximport.export.text_plain_charset");
+		var charset = prefs.getCharPref("extensions.importexporttools.export.filename_charset");
+		var textCharset = prefs.getCharPref("extensions.importexporttools.export.text_plain_charset");
+		var csvSep = prefs.getCharPref("extensions.importexporttools.csv_separator");
 	}
 	catch(e) {
 		var charset = "";
 		var textCharset = "";
+		var csvSep = "";
 	}
 	document.getElementById("filenameCharset").value = charset;
 	document.getElementById("textCharset").value = textCharset;
+	document.getElementById("csvSep").value = csvSep;
 	
-	document.getElementById("skipMsg").checked = prefs.getBoolPref("mboximport.export.skip_existing_msg"); 
-	if (prefs.getBoolPref("mboximport.export.use_container_folder")) {
+	document.getElementById("skipMsg").checked = prefs.getBoolPref("extensions.importexporttools.export.skip_existing_msg"); 
+	if (prefs.getBoolPref("extensions.importexporttools.export.use_container_folder")) {
 		document.getElementById("indexSetting").selectedIndex = 0;
 		document.getElementById("skipMsg").disabled = true;
 	}
@@ -120,7 +123,7 @@ function initMboxImportPanel()  {
 		document.getElementById("indexSetting").selectedIndex = 1;
 
 	// Backup section
-	var freq = 	prefs.getIntPref("mboximport.autobackup.frequency");
+	var freq = 	prefs.getIntPref("extensions.importexporttools.autobackup.frequency");
 	switch(freq) {
 		case 1 :  document.getElementById("frequencyList"). selectedIndex = 0;
 			document.getElementById("backupEnable").checked = true;	
@@ -142,28 +145,28 @@ function initMboxImportPanel()  {
 	}
 
 	try {
-		document.getElementById("backupDir").value = prefs.getComplexValue("mboximport.autobackup.dir",Components.interfaces.nsISupportsString).data;
-		document.getElementById("backupCustomName").value = prefs.getComplexValue("mboximport.autobackup.dir_custom_name",Components.interfaces.nsISupportsString).data;
+		document.getElementById("backupDir").value = prefs.getComplexValue("extensions.importexporttools.autobackup.dir",Components.interfaces.nsISupportsString).data;
+		document.getElementById("backupCustomName").value = prefs.getComplexValue("extensions.importexporttools.autobackup.dir_custom_name",Components.interfaces.nsISupportsString).data;
 	}
 	catch(e) {}
 	
-	document.getElementById("backupType").selectedIndex = prefs.getIntPref("mboximport.autobackup.type");
-	var dir  = prefs.getIntPref("mboximport.autobackup.dir_name_type");
+	document.getElementById("backupType").selectedIndex = prefs.getIntPref("extensions.importexporttools.autobackup.type");
+	var dir  = prefs.getIntPref("extensions.importexporttools.autobackup.dir_name_type");
 	document.getElementById("backupDirName").selectedIndex = dir;
-	document.getElementById("backupType").selectedIndex = prefs.getIntPref("mboximport.autobackup.type");
-	document.getElementById("saveMode").selectedIndex = prefs.getIntPref("mboximport.autobackup.save_mode");
+	document.getElementById("backupType").selectedIndex = prefs.getIntPref("extensions.importexporttools.autobackup.type");
+	document.getElementById("saveMode").selectedIndex = prefs.getIntPref("extensions.importexporttools.autobackup.save_mode");
 
-	var last = prefs.getIntPref("mboximport.autobackup.last")*1000;
+	var last = prefs.getIntPref("extensions.importexporttools.autobackup.last")*1000;
 	if (last > 0) {
 		var time = new Date(last);
 		var localTime = time.toLocaleString();
 		document.getElementById("backupLast").value = localTime;
 	}
-	document.getElementById("modalWin").checked = prefs.getBoolPref("mboximport.autobackup.use_modal_dialog"); 
+	document.getElementById("modalWin").checked = prefs.getBoolPref("extensions.importexporttools.autobackup.use_modal_dialog"); 
 }
 
 /*function setSaveMode(type) {
-	var saveMode = prefs.getIntPref("mboximport.autobackup.save_mode");
+	var saveMode = prefs.getIntPref("extensions.importexporttools.autobackup.save_mode");
 	if (saveMode == 0 || (saveMode == 2 && type ==0))
 		document.getElementById("saveMode").selectedIndex = 0;
 	else
@@ -175,41 +178,41 @@ function toggleType(el) {
 }*/
 
 function saveMboxImportPrefs()   {
-	prefs.setBoolPref("mboximport.export.overwrite", document.getElementById("MBoverwrite").checked);
-	prefs.setBoolPref("mboximport.export.filenames_toascii", document.getElementById("MBasciiname").checked);
-	prefs.setBoolPref("mboximport.confirm.before_mbox_import", document.getElementById("MBconfrimimport").checked);
-	prefs.setBoolPref("mboximport.export.HTML_as_displayed", document.getElementById("MBhtmlasdisplayed").checked);
-	prefs.setBoolPref("mboximport.clipboard.always_just_text", document.getElementById("MBcliptextplain").checked);
-	prefs.setIntPref("mboximport.subject.max_length", document.getElementById("MBsubmaxlen").value);
-	prefs.setIntPref("mboximport.author.max_length", document.getElementById("MBauthmaxlen").value);
-	prefs.setIntPref("mboximport.recipients.max_length", document.getElementById("MBrecmaxlen").value);
-	prefs.setBoolPref("mboximport.export.set_filetime", document.getElementById("setTimestamp").checked);
-	prefs.setBoolPref("mboximport.export.filenames_addtime", document.getElementById("addtimeCheckbox").checked);
-	prefs.setBoolPref("mboximport.import.build_mbox_index",document.getElementById("buildMSF").checked);
-	prefs.setBoolPref("mboximport.import.name_add_number", document.getElementById("addNumber").checked);
+	prefs.setBoolPref("extensions.importexporttools.export.overwrite", document.getElementById("MBoverwrite").checked);
+	prefs.setBoolPref("extensions.importexporttools.export.filenames_toascii", document.getElementById("MBasciiname").checked);
+	prefs.setBoolPref("extensions.importexporttools.confirm.before_mbox_import", document.getElementById("MBconfrimimport").checked);
+	prefs.setBoolPref("extensions.importexporttools.export.HTML_as_displayed", document.getElementById("MBhtmlasdisplayed").checked);
+	prefs.setBoolPref("extensions.importexporttools.clipboard.always_just_text", document.getElementById("MBcliptextplain").checked);
+	prefs.setIntPref("extensions.importexporttools.subject.max_length", document.getElementById("MBsubmaxlen").value);
+	prefs.setIntPref("extensions.importexporttools.author.max_length", document.getElementById("MBauthmaxlen").value);
+	prefs.setIntPref("extensions.importexporttools.recipients.max_length", document.getElementById("MBrecmaxlen").value);
+	prefs.setBoolPref("extensions.importexporttools.export.set_filetime", document.getElementById("setTimestamp").checked);
+	prefs.setBoolPref("extensions.importexporttools.export.filenames_addtime", document.getElementById("addtimeCheckbox").checked);
+	prefs.setBoolPref("extensions.importexporttools.import.build_mbox_index",document.getElementById("buildMSF").checked);
+	prefs.setBoolPref("extensions.importexporttools.import.name_add_number", document.getElementById("addNumber").checked);
 
 	if (document.getElementById("customizeFilenames").checked)
-		prefs.setIntPref("mboximport.exportEML.filename_format", 2);
+		prefs.setIntPref("extensions.importexporttools.exportEML.filename_format", 2);
 	else
-		prefs.setIntPref("mboximport.exportEML.filename_format", 0);
+		prefs.setIntPref("extensions.importexporttools.exportEML.filename_format", 0);
 	
-	prefs.setBoolPref("mboximport.exportMBOX.use_dir", document.getElementById("use_export_mbox_dir").checked);
+	prefs.setBoolPref("extensions.importexporttools.exportMBOX.use_dir", document.getElementById("use_export_mbox_dir").checked);
 	if (document.getElementById("export_mbox_dir").value != "") 
-		setComplexPref("mboximport.exportMBOX.dir", document.getElementById("export_mbox_dir").value);
+		setComplexPref("extensions.importexporttools.exportMBOX.dir", document.getElementById("export_mbox_dir").value);
 	else
-		prefs.deleteBranch("mboximport.exportMBOX.dir");
+		prefs.deleteBranch("extensions.importexporttools.exportMBOX.dir");
 		
-	prefs.setBoolPref("mboximport.exportEML.use_dir", document.getElementById("use_export_eml_dir").checked);
+	prefs.setBoolPref("extensions.importexporttools.exportEML.use_dir", document.getElementById("use_export_eml_dir").checked);
 	if (document.getElementById("export_eml_dir").value != "")
-		setComplexPref("mboximport.exportEML.dir", document.getElementById("export_eml_dir").value);
+		setComplexPref("extensions.importexporttools.exportEML.dir", document.getElementById("export_eml_dir").value);
 	else
-		prefs.deleteBranch("mboximport.exportEML.dir");
+		prefs.deleteBranch("extensions.importexporttools.exportEML.dir");
 	
-	prefs.setBoolPref("mboximport.exportMSG.use_dir", document.getElementById("use_export_msgs_dir").checked);
+	prefs.setBoolPref("extensions.importexporttools.exportMSG.use_dir", document.getElementById("use_export_msgs_dir").checked);
 	if (document.getElementById("export_msgs_dir").value != "") 
-		setComplexPref("mboximport.exportMSG.dir", document.getElementById("export_msgs_dir").value);
+		setComplexPref("extensions.importexporttools.exportMSG.dir", document.getElementById("export_msgs_dir").value);
 	else
-		prefs.deleteBranch("mboximport.exportMSG.dir");
+		prefs.deleteBranch("extensions.importexporttools.exportMSG.dir");
 
 	var pattern = "";
 	for (u=1;u<4;u++) {
@@ -218,38 +221,39 @@ function saveMboxImportPrefs()   {
 			val = "-"+val;
 		pattern += val;
 	}
-	prefs.setCharPref("mboximport.export.filename_pattern", pattern);
-	prefs.setBoolPref("mboximport.export.filename_add_prefix", document.getElementById("addPrefix").checked);
+	prefs.setCharPref("extensions.importexporttools.export.filename_pattern", pattern);
+	prefs.setBoolPref("extensions.importexporttools.export.filename_add_prefix", document.getElementById("addPrefix").checked);
 	if (document.getElementById("prefixText").value != "")
-		setComplexPref("mboximport.export.filename_prefix", document.getElementById("prefixText").value);
-	prefs.setBoolPref("mboximport.export.cut_subject", document.getElementById("cutSub").checked);
-	prefs.setBoolPref("mboximport.export.cut_filename", document.getElementById("cutFN").checked);
-	prefs.setCharPref("mboximport.export.filename_charset", document.getElementById("filenameCharset").value);
-	prefs.setCharPref("mboximport.export.text_plain_charset", document.getElementById("textCharset").value);
+		setComplexPref("extensions.importexporttools.export.filename_prefix", document.getElementById("prefixText").value);
+	prefs.setBoolPref("extensions.importexporttools.export.cut_subject", document.getElementById("cutSub").checked);
+	prefs.setBoolPref("extensions.importexporttools.export.cut_filename", document.getElementById("cutFN").checked);
+	prefs.setCharPref("extensions.importexporttools.export.filename_charset", document.getElementById("filenameCharset").value);
+	prefs.setCharPref("extensions.importexporttools.export.text_plain_charset", document.getElementById("textCharset").value);
+	prefs.setCharPref("extensions.importexporttools.csv_separator", document.getElementById("csvSep").value);
 
 	if (document.getElementById("indexSetting").selectedIndex == 0)
-		prefs.setBoolPref("mboximport.export.use_container_folder", true);
+		prefs.setBoolPref("extensions.importexporttools.export.use_container_folder", true);
 	else
-		prefs.setBoolPref("mboximport.export.use_container_folder", false);
+		prefs.setBoolPref("extensions.importexporttools.export.use_container_folder", false);
 
 	// Backup section
 	if (! document.getElementById("backupEnable").checked)
-		prefs.setIntPref("mboximport.autobackup.frequency", 0);
+		prefs.setIntPref("extensions.importexporttools.autobackup.frequency", 0);
 	else
-		prefs.setIntPref("mboximport.autobackup.frequency", document.getElementById("frequencyList").selectedItem.value);
+		prefs.setIntPref("extensions.importexporttools.autobackup.frequency", document.getElementById("frequencyList").selectedItem.value);
 	if (document.getElementById("backupDir").value)
-		setComplexPref("mboximport.autobackup.dir", document.getElementById("backupDir").value);
+		setComplexPref("extensions.importexporttools.autobackup.dir", document.getElementById("backupDir").value);
 	else
-		prefs.deleteBranch("mboximport.autobackup.dir");
-	prefs.setIntPref("mboximport.autobackup.dir_name_type", document.getElementById("backupDirName").selectedIndex);
+		prefs.deleteBranch("extensions.importexporttools.autobackup.dir");
+	prefs.setIntPref("extensions.importexporttools.autobackup.dir_name_type", document.getElementById("backupDirName").selectedIndex);
 	if (document.getElementById("backupCustomName").value)
-		setComplexPref("mboximport.autobackup.dir_custom_name", document.getElementById("backupCustomName").value);
+		setComplexPref("extensions.importexporttools.autobackup.dir_custom_name", document.getElementById("backupCustomName").value);
 	else
-		prefs.deleteBranch("mboximport.autobackup.dir_custom_name");
-	prefs.setBoolPref("mboximport.export.skip_existing_msg", document.getElementById("skipMsg").checked);
-	prefs.setBoolPref("mboximport.autobackup.use_modal_dialog", document.getElementById("modalWin").checked);
-	prefs.setIntPref("mboximport.autobackup.type", document.getElementById("backupType").selectedIndex);
-	prefs.setIntPref("mboximport.autobackup.save_mode", document.getElementById("saveMode").selectedIndex);
+		prefs.deleteBranch("extensions.importexporttools.autobackup.dir_custom_name");
+	prefs.setBoolPref("extensions.importexporttools.export.skip_existing_msg", document.getElementById("skipMsg").checked);
+	prefs.setBoolPref("extensions.importexporttools.autobackup.use_modal_dialog", document.getElementById("modalWin").checked);
+	prefs.setIntPref("extensions.importexporttools.autobackup.type", document.getElementById("backupType").selectedIndex);
+	prefs.setIntPref("extensions.importexporttools.autobackup.save_mode", document.getElementById("saveMode").selectedIndex);
 }
 
 function customNamesCheck(el) {
@@ -291,13 +295,5 @@ function toggleSkipMsg(el) {
 }
 	
 function pickFile(el) {
-	var nsIFilePicker = Components.interfaces.nsIFilePicker;
-	var fp = Components.classes["@mozilla.org/filepicker;1"]
-		.createInstance(nsIFilePicker);
-	fp.init(window, "", nsIFilePicker.modeGetFolder);
-	var res = fp.show();
- 	if (res == nsIFilePicker.returnOK) {
-		var box = el.previousSibling;
-		box.value = fp.file.path;
-	}
+	 IETpickFile(el);
 }

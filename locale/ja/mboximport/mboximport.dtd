@@ -56,7 +56,6 @@
 <!ENTITY emlExport "フォルダを 単一ファイルでエクスポート：">
 <!ENTITY selExport "選択メッセージをエクスポート：">
 <!ENTITY MBcaptionlabel1 "設定">
-<!ENTITY saveProfile "すべてのプロファイルを保存">
 <!ENTITY saveProfileMail "すべてのメールファイルを保存">
 <!ENTITY sdExportButton "エクスポート">
 <!ENTITY sdMessages "メッセージ">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "フォルダからすべての eml ファイルをインポート">
 <!ENTITY importMAILDIR "Maildir フォルダからインポート">
 <!ENTITY withattach "(添付ファイル含む)">
+<!ENTITY asPDF "PDF format">
+<!ENTITY importProfile "Import profile">
+<!ENTITY csvSep "Separator for export in CSV format:">
+<!ENTITY saveProfile "すべてのプロファイルを保存">

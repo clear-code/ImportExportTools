@@ -1,4 +1,7 @@
-function IETsetMenus() {
+function IETinit() {
+	IETprefs.setBoolPref("extensions.importexporttools.printPDF", false);
+	if (IETprefs.getBoolPref("extensions.importexporttools.migrate_prefs"))
+		IETmigratePrefs();
 	var node1 = document.getElementById("multipleSaveContext");
 	var node3 = document.getElementById("copyToClipContext");
 	var node5 = document.getElementById("copyToClip");
@@ -25,30 +28,30 @@ function IETsetMenus() {
 	var mysep = document.getElementById("IETsep");
 	popup.insertBefore(mysep,popup.firstChild);
 	popup.insertBefore(mymenu,popup.firstChild);
-	
-	/*var appmenu = document.getElementById("appmenu_taskPopup");
- 	if (appmenu) {
- 		var menubar = document.getElementById("mail-toolbar-menubar2");
-		menubar.addEventListener("DOMAttrModified",IETnewMenuHandler, false);
-		if (menubar.getAttribute("autohide") == "true") {
-			appmenu.appendChild(document.getElementById("mbxpopup2").parentNode);
-		}
-	}*/
+
+	if (navigator.userAgent.toLowerCase().indexOf("seamonkey") > -1) {
+		if (document.getElementById("IETimportProfile"))
+			document.getElementById("IETimportProfile").setAttribute("hidden", "true");
+		if (document.getElementById("IETimportProfile3"))
+			document.getElementById("IETimportProfile3").setAttribute("hidden", "true");
+	}
 }
 
-/*function IETnewMenuHandler(event) {
-	if (event.attrChange == MutationEvent.MODIFICATION && event.attrName == "autohide") {
-		var mboxmenu = document.getElementById("mbxpopup2").parentNode;
-		if (event.newValue == "true") {
-			var popup = document.getElementById("appmenu_taskPopup");
-			popup.appendChild(mboxmenu);
-		}
-		else {
-			document.getElementById("taskPopup").appendChild(mboxmenu);
-		}
+function IETmigratePrefs() {
+	var branch = IETprefs.getBranch("extensions.importexporttools.");
+	var oldPrefs = IETprefs.getChildList("mboximport.", {});
+	for (var i in oldPrefs) {
+		var type = IETprefs.getPrefType(oldPrefs[i]);
+		if (type == 32)
+			branch.setCharPref(oldPrefs[i].replace("mboximport.",""), IETprefs.getCharPref(oldPrefs[i]));
+		else if (type == 64)
+			branch.setIntPref(oldPrefs[i].replace("mboximport.",""), IETprefs.getIntPref(oldPrefs[i]));
+		else
+			branch.setBoolPref(oldPrefs[i].replace("mboximport.",""), IETprefs.getBoolPref(oldPrefs[i]));
+		IETprefs.deleteBranch(oldPrefs[i]);
 	}
-}*/
-                  
+}
+
 
 function rfc822test() {
 	var item = document.getElementById("attachmentList").selectedItem;
@@ -217,4 +220,4 @@ function IETsetMBmenu2(popup) {
 	}
 }
 
-window.addEventListener("load", IETsetMenus , false);
+window.addEventListener("load", IETinit , false);

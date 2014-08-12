@@ -56,7 +56,6 @@
 <!ENTITY emlExport "Ordner als einzelne Dateien exportieren:">
 <!ENTITY selExport "Gewählte Nachrichten exportieren:">
 <!ENTITY MBcaptionlabel1 "Export-Einstellungen">
-<!ENTITY saveProfile "Alle Profil-Dateien speichern">
 <!ENTITY saveProfileMail "Alle Mail-Dateien speichern">
 <!ENTITY sdExportButton "Exportieren">
 <!ENTITY sdMessages "Nachrichten">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "Importiere alle Nachrichten eines Verzeichnisses">
 <!ENTITY importMAILDIR "Importiere MailDir-Ordner">
 <!ENTITY withattach "(einschl. Anhänge)">
+<!ENTITY asPDF "PDF format">
+<!ENTITY importProfile "Import profile">
+<!ENTITY csvSep "Separator for export in CSV format:">
+<!ENTITY saveProfile "Alle Profil-Dateien speichern">

@@ -56,7 +56,6 @@
 <!ENTITY emlExport "Mappák exportálása külön fájlokként:">
 <!ENTITY selExport "Kijelölt üzenetek exportálása:">
 <!ENTITY MBcaptionlabel1 "Általános beállítások">
-<!ENTITY saveProfile "Mindegyik profil fájl mentése">
 <!ENTITY saveProfileMail "Mindegyik E-mail fájl mentése">
 <!ENTITY sdExportButton "Exportálás">
 <!ENTITY sdMessages "Üzenetek">
@@ -102,3 +101,7 @@
 <!ENTITY importALLEML "EML fájlok importálása ide egy mappából">
 <!ENTITY importMAILDIR "Maildir mappa importálása">
 <!ENTITY withattach "(mellékletekkel)">
+<!ENTITY asPDF "PDF format">
+<!ENTITY importProfile "Import profile">
+<!ENTITY csvSep "Separator for export in CSV format:">
+<!ENTITY saveProfile "Mindegyik profil fájl mentése">

@@ -33,6 +33,7 @@
 					<menuitem id="allAsOneTXT" label="&oneFile;"  oncommand="exportAllMsgs(4)" />
 					<menuitem id="allAsOneTXTatt" label="&oneFile; &withattach;"  oncommand="exportAllMsgs(7)" />
 					<menuitem id="allCSV" label="&asCSV;"  oncommand="exportAllMsgs(6)" />
+					<menuitem id="allAsPdf" label="&asPDF;" oncommand="IETprintPDFmain.print(true)" />
 					<menuseparator />
 					<menuitem id="justIndex" label="&justIndex; &iHTML;"  oncommand="exportAllMsgs(3)" />
 					<menuitem id="justIndexCSV" label="&justIndex; &iCSV;"  oncommand="exportAllMsgs(5)" />
@@ -71,10 +72,11 @@
 			<menuitem id="selAsHTML" label="&asHTML;"  oncommand="exportSelectedMsgs(1)" />
 			<menuitem id="selAsHTMLatt" label="&asHTML; &withattach;"  oncommand="exportSelectedMsgs(8)" />
 			<menuitem id="selAsTXT" label="&asTXT;"  oncommand="exportSelectedMsgs(2)" />
-			<menuitem id="selAsTXTatt" label="&asTXT; WITH ATTCH"  oncommand="exportSelectedMsgs(9)" />
+			<menuitem id="selAsTXTatt" label="&asTXT; &withattach;"  oncommand="exportSelectedMsgs(9)" />
 			<menuitem id="selAsCSV" label="&asCSV;"  oncommand="exportSelectedMsgs(7)" />
 			<menuitem id="selAsMbox1" label="&asMBOX;"  oncommand="exportSelectedMsgs(3)" />
 			<menuitem id="selAsMbox2" label="&asMBOX2;"  oncommand="exportSelectedMsgs(4)" />
+			<menuitem id="selAsPdf" label="&asPDF;" oncommand="IETprintPDFmain.print(false)" />
 			<menuseparator />
 			<menuitem id="selAsIndex1" label="&justIndex; &iHTML;"  oncommand="exportSelectedMsgs(5)" />
 			<menuitem id="selAsIndex2" label="&justIndex; &iCSV;"  oncommand="exportSelectedMsgs(6)" />
@@ -113,6 +115,7 @@
 					<menuitem id="allAsOneTXT3" label="&oneFile;"  oncommand="exportAllMsgs(4)" />
 					<menuitem id="allAsOneTXT3att" label="&oneFile; &withattach;"  oncommand="exportAllMsgs(7)" />
 					<menuitem id="allAsCSV3" label="&asCSV;"  oncommand="exportAllMsgs(6)" />
+					<menuitem id="allAsPdf3" label="&asPDF;" oncommand="IETprintPDFmain.print(true)" />
 					<menuseparator />
 					<menuitem id="justIndex3" label="&justIndex;"  oncommand="exportAllMsgs(3)" />
 					<menuitem id="justIndexCSV3" label="&justIndex; &iCSV;"  oncommand="exportAllMsgs(5)" />
@@ -140,7 +143,7 @@
 			<menuseparator />
 			<menuitem id="openIEToptions" label="&saveProfile;" oncommand="IETexport_all(false)" />
 			<menuitem id="openIEToptions" label="&saveProfileMail;" oncommand="IETexport_all(true)" />
-
+			<menuitem id="IETimportProfile3" label="&importProfile;" oncommand="openProfileImportWizard()" />
 			<menuseparator />
 			<menuitem id="openIEToptions" label="&options;" oncommand="openIEToptions()" />
 		</menupopup>
@@ -167,6 +170,7 @@
 					<menuitem id="allAsOneTXT2" label="&oneFile;"  oncommand="exportAllMsgs(4)" />
 					<menuitem id="allAsOneTXT2att" label="&oneFile; &withattach;"  oncommand="exportAllMsgs(7)" />
 					<menuitem id="allAsCSV2" label="&asCSV;"  oncommand="exportAllMsgs(6)" />
+					<menuitem id="allAsPdf2" label="&asPDF;" oncommand="IETprintPDFmain.print(true)" />
 					<menuseparator />
 					<menuitem id="justIndex2" label="&justIndex;"  oncommand="exportAllMsgs(3)" />
 					<menuitem id="justIndexCSV2" label="&justIndex; &iCSV;"  oncommand="exportAllMsgs(5)" />
@@ -192,9 +196,9 @@
 			</menu>
 			
 			<menuseparator />
-			<menuitem id="openIEToptions" label="&saveProfile;" oncommand="IETexport_all(false)" />
 			<menuitem id="openIEToptions" label="&saveProfileMail;" oncommand="IETexport_all(true)" />
-
+			<menuitem id="openIEToptions" label="&saveProfile;" oncommand="IETexport_all(false)" />
+			<menuitem id="IETimportProfile" label="&importProfile;" oncommand="openProfileImportWizard()" />
 			<menuseparator />
 			<menuitem id="openIEToptions" label="&options;" oncommand="openIEToptions()" />
 		</menupopup>
@@ -219,6 +223,9 @@
 			<menuitem id="selAsCSVContext" label="&asCSV;"  oncommand="exportSelectedMsgs(7)" />
 			<menuitem id="selAsMbox1Context" label="&asMBOX;"  oncommand="exportSelectedMsgs(3)" />
 			<menuitem id="selAsMbox2Context" label="&asMBOX2;"  oncommand="exportSelectedMsgs(4)" />
+			<menuitem id="selAsPdfContext" label="&asPDF;" oncommand="IETprintPDFmain.print(false)">
+				<observes element="mailContext-replySender" attribute="disabled" />
+			</menuitem>
 			<menuseparator />
 			<menuitem id="selAsIndex1Context" label="&justIndex; &iHTML;"  oncommand="exportSelectedMsgs(5)" />
 			<menuitem id="selAsIndex2Context" label="&justIndex; &iCSV;"  oncommand="exportSelectedMsgs(6)" />
@@ -244,6 +251,7 @@
 			<menuitem id="selAsCSVContext" label="&asCSV;"  oncommand="exportSelectedMsgs(7)" />
 			<menuitem id="selAsMbox1Context" label="&asMBOX;"  oncommand="exportSelectedMsgs(3)" />
 			<menuitem id="selAsMbox2Context" label="&asMBOX2;"  oncommand="exportSelectedMsgs(4)" />
+			<menuitem id="selAsPdf2Context" label="&asPDF;" oncommand="IETprintPDFmain.print(false)" />
 			<menuseparator />
 			<menuitem id="selAsIndex1Context" label="&justIndex; &iHTML;"  oncommand="exportSelectedMsgs(5)" />
 			<menuitem id="selAsIndex2Context" label="&justIndex; &iCSV;"  oncommand="exportSelectedMsgs(6)" />
